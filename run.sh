@@ -38,6 +38,10 @@ test -f pig-piggybank/pom.xml || cp ../files/pom/pig-piggybank-pom.xml pig-piggy
 test -f pig-zebra/pom.xml     || cp ../files/pom/pig-zebra-pom.xml     pig-zebra/pom.xml      && git add pig-zebra/pom.xml
 test -f pig-tutorial/pom.xml  || cp ../files/pom/pig-tutorial-pom.xml  pig-tutorial/pom.xml   && git add pig-tutorial/pom.xml
 
+fgrep '=' ivy/libraries.properties | sed 's@\(.*\)=\(.*\)@    <\1>\2</\1>@g' > pom.xml.versions
+sed -i -e '/<!-- ivy versions -->/r pom.xml.versions' pom.xml
+
+
 moveGitFiles 'lib-src/bzip2/org/apache/tools'   'pig-bzip2/src/main/java/org/apache/tools' '*.java'
 moveGitFiles 'lib-src/bzip2/org/apache/pig'     'pig-core/src/main/java/org/apache/pig' '*.java'
 
@@ -51,8 +55,6 @@ moveGitFiles 'src/org/'         'pig-core/src/main/antlr3/org/'     '*.g'
 moveGitFiles 'src/org/'         'pig-core/src/main/javacc/org/'     '*.jj'
 moveGitFiles 'src/org/'         'pig-core/src/main/resources/org/'  # All remaining files
 
-exit
-
 #setup shims
 moveGitFiles 'shims/src/'       'pig-core/src/main/shims/'          '*.java'
 
@@ -62,7 +64,36 @@ moveGitFiles 'test/org/'        'pig-core/src/test/javacc/'         '*.jjt'
 moveGitFiles 'test/org/'        'pig-core/src/test/pig/'            '*.pig'
 moveGitFiles 'shims/src/'       'pig-core/src/test/shims/'          '*.java'
 
-#Clean empty directories
+
+moveGitFiles 'test/org/'    'pig-core/src/test/resources/'
+
+#setup pig-piggybank/*
+moveGitFiles 'contrib/piggybank/java/src/main/java/org/'   'pig-piggybank/src/main/java/org/'           '*.java'
+moveGitFiles 'contrib/piggybank/java/src/main/java/org/'   'pig-piggybank/src/main/resources/org/'
+
+moveGitFiles 'contrib/piggybank/java/src/test/java/org/'   'pig-piggybank/src/test/java/org/'           '*.java'
+moveGitFiles 'contrib/piggybank/java/src/test/java/org/'   'pig-piggybank/src/testresources/java/org/'
+
+#setup zerbra/*
+moveGitFiles 'contrib/zebra/src/java/org/'   'pig-zebra/src/main/java/org/'       '*.java'
+moveGitFiles 'contrib/zebra/src/java/org/'   'pig-zebra/src/main/jjtree/org/'     '*.jjt'
+moveGitFiles 'contrib/zebra/src/java/org/'   'pig-zebra/src/main/resources/org/'
+
+moveGitFiles 'contrib/zebra/src/test/org/'   'pig-zebra/src/test/java/org/'       '*.java'
+moveGitFiles 'contrib/zebra/src/test/org/'   'pig-zebra/src/test/resources/org/'
+
+#setup tutorial
+moveGitFiles 'tutorial/src/org/'   'pig-tutorial/src/main/java/org/'              '*.java'
+moveGitFiles 'tutorial/src/org/'   'pig-tutorial/src/main/resources/org/'
+
+
+
+
+
+# Clean empty directories
+find . -type d  | xargs rmdir
+find . -type d  | xargs rmdir
+find . -type d  | xargs rmdir
 find . -type d  | xargs rmdir
 find . -type d  | xargs rmdir
 find . -type d  | xargs rmdir
@@ -72,26 +103,3 @@ find . -type d  | xargs rmdir
 
 exit
 
-
-moveGitFiles 'test/org/'    'pig-core/src/test/resources/'
-
-#setup pig-piggybank/*
-git mv contrib/piggybank/java/src/main/java/org/   pig-piggybank/src/main/java/org/      # --include "*/"# --include "*.java"  --exclude "*"
-git mv contrib/piggybank/java/src/main/java/org/   pig-piggybank/src/main/resources/org/ # --include "*/"                      --exclude "*.java"
-#git mv contrib/piggybank/java/src/test/java/org/  pig-piggybank/src/test/java/org/      # --include "*/"# --include "*.java"  --exclude "*"
-git mv contrib/piggybank/java/src/test/java/org/   pig-piggybank/src/test/java/org/      # --include "*/"
-git mv contrib/piggybank/java/src/test/java/org/   pig-piggybank/src/test/resources/org/ # --include "*/"                      --exclude "*.java"
-
-#setup zerbra/*
-git mv contrib/zebra/src/java/org/   pig-zebra/src/main/java/org/       # --include "*/"# --include "*.java"  --exclude "*"
-git mv contrib/zebra/src/java/org/   pig-zebra/src/main/jjtree/org/     # --include "*/"# --include "*.jjt"   --exclude "*"
-git mv contrib/zebra/src/java/org/   pig-zebra/src/main/resources/org/  # --include "*/"  --exclude "*.java"  --exclude "*.jjt"
-git mv contrib/zebra/src/test/org/   pig-zebra/src/test/java/org/       # --include "*/"# --include "*.java"  --exclude "*"
-git mv contrib/zebra/src/test/org/   pig-zebra/src/test/resources/org/  # --include "*/"  --exclude "*.java"
-
-#setup tutorial
-git mv tutorial/src/org/   pig-tutorial/src/main/java/org/              # --include "*/"# --include "*.java"  --exclude "*"
-git mv tutorial/src/org/   pig-tutorial/src/main/resources/org/         # --include "*/"  --exclude "*.java"
-
-#Clean empty directories
-find . -type d  | xargs rmdir

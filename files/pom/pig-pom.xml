@@ -1,105 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.pig</groupId>
   <artifactId>pig</artifactId>
   <packaging>pom</packaging>
-  <version>0.12.0-SNAPSHOT</version>
+  <version>0.17.0-SNAPSHOT</version>
 
   <properties>
     <maven.compiler.source>1.5</maven.compiler.source>
     <maven.compiler.target>1.5</maven.compiler.target>
 
-<!--
-    <hadoopversion>23</hadoopversion>
--->
+    <!--
+        <hadoopversion>23</hadoopversion>
+    -->
     <hadoopversion>20</hadoopversion>
 
 
     <!-- ivy versions -->
-    <antlr.version>3.4</antlr.version>
-    <aopalliance.version>1.0</aopalliance.version>
-    <apacheant.version>1.7.1</apacheant.version>
-    <automaton.version>1.11-8</automaton.version>
-    <avro.version>1.5.3</avro.version>
-    <checkstyle.version>4.2</checkstyle.version>
-    <commons-beanutils.version>1.7.0</commons-beanutils.version>
-    <commons-cli.version>1.0</commons-cli.version>
-    <commons-codec.version>1.4</commons-codec.version>
-    <commons-collections.version>3.2.1</commons-collections.version>
-    <commons-configuration.version>1.6</commons-configuration.version>
-    <commons-el.version>1.0</commons-el.version>
-    <commons-httpclient.version>3.1</commons-httpclient.version>
-    <commons-io.version>2.3</commons-io.version>
-    <commons-lang.version>2.4</commons-lang.version>
-    <commons-logging.version>1.1.1</commons-logging.version>
-    <groovy.version>1.8.6</groovy.version>
-    <guava.version>11.0</guava.version>
-    <guice-servlet.version>3.0</guice-servlet.version>
-    <guice.version>3.0</guice.version>
-
-    <hadoop-common.version>2.0.0-alpha</hadoop-common.version>
-    <hadoop-core.version>1.0.0</hadoop-core.version>
-    <hadoop-hdfs.version>2.0.0-alpha</hadoop-hdfs.version>
-    <hadoop-mapreduce.version>2.0.0-alpha</hadoop-mapreduce.version>
-    <hadoop-test.version>1.0.0</hadoop-test.version>
-
-<!-- 20
-    <hadoop-common.version>0.23.1</hadoop-common.version>
-    <hadoop-core.version>0.20.2</hadoop-core.version>
-    <hadoop-hdfs.version>0.23.1</hadoop-hdfs.version>
-    <hadoop-mapreduce.version>0.23.1</hadoop-mapreduce.version>
-    <hadoop-test.version>0.20.2</hadoop-test.version>
--->
-    <hbase.version>0.94.1</hbase.version>
-    <high-scale-lib.version>1.1.1</high-scale-lib.version>
-    <hive.version>0.8.0</hive.version>
-    <hsqldb.version>1.8.0.10</hsqldb.version>
-    <httpcomponents.version>4.1</httpcomponents.version>
-    <ivy.version>2.2.0</ivy.version>
-    <jackson-pig-3039-test.version>1.9.9</jackson-pig-3039-test.version>
-    <jackson.version>1.8.8</jackson.version>
-    <jansi.version>1.9</jansi.version>
-    <jasper.version>6.1.14</jasper.version>
-    <javacc.version>4.2</javacc.version>
-    <javax-inject.version>1</javax-inject.version>
-    <jaxb-api.version>2.2.2</jaxb-api.version>
-    <jaxb-impl.version>2.2.3-1</jaxb-impl.version>
-    <jdeb.version>0.8</jdeb.version>
-    <jdiff.version>1.0.9</jdiff.version>
-    <jersey-core.version>1.8</jersey-core.version>
-    <jersey.version>1.8</jersey.version>
-    <jetty-util.version>6.1.26</jetty-util.version>
-    <jetty.version>6.1.26</jetty.version>
-    <jline.version>0.9.94</jline.version>
-    <joda-time.version>1.6</joda-time.version>
-    <jruby.version>1.6.7</jruby.version>
-    <jsch.version>0.1.38</jsch.version>
-    <json-simple.version>1.1</json-simple.version>
-    <jsr311-api.version>1.1.1</jsr311-api.version>
-    <junit.version>4.5</junit.version>
-    <jython.version>2.5.2</jython.version>
-    <log4j.version>1.2.16</log4j.version>
-    <metrics-core.version>2.1.2</metrics-core.version>
-    <mockito.version>1.8.4</mockito.version>
-    <netty.version>3.2.2</netty.version>
-    <protobuf-java.version>2.4.0a</protobuf-java.version>
-    <rats-lib.version>0.5.1</rats-lib.version>
-    <rhino.version>1.7R2</rhino.version>
-    <servlet-api.version>2.5</servlet-api.version>
-    <servlet.version>4.0.6</servlet.version>
-    <slf4j-api.version>1.6.1</slf4j-api.version>
-    <slf4j-log4j12.version>1.6.1</slf4j-log4j12.version>
-    <stringtemplate.version>4.0.4</stringtemplate.version>
-    <wagon-http.version>1.0-beta-2</wagon-http.version>
-    <xalan.version>2.7.1</xalan.version>
-    <xerces.version>2.10.0</xerces.version>
-    <xmlenc.version>0.52</xmlenc.version>
-    <zookeeper.version>3.4.4</zookeeper.version>
 
     <encoding>UTF-8</encoding>
   </properties>
-  
+
   <dependencies>
 
     <dependency>
@@ -210,7 +132,7 @@
       <artifactId>jetty-util</artifactId>
       <version>${jetty-util.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
@@ -264,7 +186,7 @@
       <artifactId>log4j</artifactId>
       <version>${log4j.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-core</artifactId>
@@ -300,7 +222,7 @@
       <artifactId>hadoop-common</artifactId>
       <version>${hadoop-common.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-hdfs</artifactId>
@@ -326,7 +248,7 @@
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-daemon</artifactId>
         </exclusion>
-      </exclusions> 
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -411,7 +333,7 @@
       <version>${commons-logging.version}</version>
     </dependency>
 
-    
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
@@ -594,78 +516,78 @@
       <artifactId>hbase</artifactId>
       <version>${hbase.version}</version>
       <exclusions>
-	<exclusion>
+        <exclusion>
           <groupId>org.apache.thrift</groupId>
           <artifactId>thrift</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>org.apache.hadoop</groupId>
           <artifactId>hadoop-core</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>org.apache.ant</groupId>
           <artifactId>ant</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-api</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-log4j12</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>org.slf4j</groupId>
           <artifactId>log4j12</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>org.slf4j</groupId>
           <artifactId>log4j-over-slf4j</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>stax</groupId>
           <artifactId>stax-api</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>javax.xml.bind</groupId>
           <artifactId>jaxb-api</artifactId>
-	</exclusion>
-	<exclusion>
-	  <groupId>javax.ws.rs</groupId>
-	  <artifactId>jsr311-api</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.ws.rs</groupId>
+          <artifactId>jsr311-api</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>tomcat</groupId>
           <artifactId>jasper-runtime</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>tomcat</groupId>
           <artifactId>jasper-compiler</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>com.google.protobuf</groupId>
           <artifactId>protobuf-java</artifactId>
-	</exclusion>
-	<exclusion>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-core</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
+          <groupId>com.sun.jersey</groupId>
+          <artifactId>jersey-core</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>com.sun.jersey</groupId>
           <artifactId>jersey-server</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>com.sun.jersey</groupId>
           <artifactId>jersey-json</artifactId>
-	</exclusion>
-	<exclusion>
+        </exclusion>
+        <exclusion>
           <groupId>asm</groupId>
           <artifactId>asm</artifactId>
-	</exclusion>
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -694,7 +616,7 @@
     </plugins>
   </build>
   <profiles>
-     <profile>
+    <profile>
       <id>dont-run-test</id>
       <activation>
         <property>
@@ -703,18 +625,18 @@
         </property>
       </activation>
       <build>
-	<plugins>
-	<plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.12.4</version>
-          <configuration>
-            <skipTests>true</skipTests>
-          </configuration>
-	</plugin>
-	</plugins>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.12.4</version>
+            <configuration>
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
       </build>
-     </profile>
+    </profile>
   </profiles>
 
   <modules>

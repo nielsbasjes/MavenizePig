@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.apache.pig</groupId>
     <artifactId>pig</artifactId>
-    <version>0.12.0-SNAPSHOT</version>
+    <version>0.17.0-SNAPSHOT</version>
   </parent>
   <artifactId>pig-core</artifactId>
   <name>pig-bzip2</name>
@@ -40,47 +41,51 @@
         </executions>
       </plugin>
       <plugin>
-	<groupId>org.codehaus.mojo</groupId>
-	<artifactId>build-helper-maven-plugin</artifactId>
-	<executions>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
           <execution>
-	    <id>add-source</id>
+            <id>add-source</id>
             <phase>generate-sources</phase>
-            <goals><goal>add-source</goal></goals>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
             <configuration>
               <sources>
                 <source>${basedir}/src/main/shims/hadoop${hadoopversion}</source>
-		<source>${project.build.directory}/generated-sources/antlr3</source>
-		<source>${project.build.directory}/generated-sources/javacc</source>
-		<source>${project.build.directory}/generated-sources/jjtree</source>
+                <source>${project.build.directory}/generated-sources/antlr3</source>
+                <source>${project.build.directory}/generated-sources/javacc</source>
+                <source>${project.build.directory}/generated-sources/jjtree</source>
               </sources>
             </configuration>
           </execution>
-	  <execution>
-	    <id>add-test-source</id>
+          <execution>
+            <id>add-test-source</id>
             <phase>generate-test-sources</phase>
-            <goals><goal>add-test-source</goal></goals>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
             <configuration>
               <sources>
                 <source>${basedir}/src/test/shims/hadoop${hadoopversion}</source>
-		<source>${project.build.directory}/test-generated-sources/javacc</source>
-		<source>${project.build.directory}/generated-sources/jjtree</source>
+                <source>${project.build.directory}/test-generated-sources/javacc</source>
+                <source>${project.build.directory}/generated-sources/jjtree</source>
               </sources>
             </configuration>
           </execution>
-	</executions>
+        </executions>
       </plugin>
       <plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-jar-plugin</artifactId>
-	<version>2.2</version>
-	<executions>
-         <execution>
-           <goals>
-             <goal>test-jar</goal>
-           </goals>
-         </execution>
-	</executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -93,7 +98,7 @@
               <goal>javacc</goal>
             </goals>
           </execution>
-	  <execution>
+          <execution>
             <id>test</id>
             <phase>generate-test-sources</phase>
             <goals>
@@ -101,7 +106,7 @@
             </goals>
             <configuration>
               <sourceDirectory>src/test/javacc</sourceDirectory>
-	      <outputDirectory>${project.build.directory}/test-generated-sources/javacc</outputDirectory>
+              <outputDirectory>${project.build.directory}/test-generated-sources/javacc</outputDirectory>
             </configuration>
           </execution>
         </executions>
