@@ -5,15 +5,23 @@
 # Clone the original pig from github
 [ -d OriginalPig ] || git clone https://github.com/apache/pig OriginalPig
 
-# Wipe our mavenized copy
-rm -rf pig
-cp -a OriginalPig pig
+if [ ! -d pig ];
+then
+    rm -rf pig
+    cp -a OriginalPig pig
+fi
 cd pig
 
 function moveGitFiles {
     sourceDir="$1"
     targetDir="$2"
     filenames="$3"
+
+    if [ ! -d ${sourceDir} ];
+    then
+        echo "Source directory does not exist: ${sourceDir}"
+        return
+    fi
 
     find ${sourceDir} -type d | while read name ; do mkdir -p ${targetDir}/$(echo ${name} | sed "s@^${sourceDir}@@g"); done
     if [ "x${filenames}" == "x" ];
@@ -116,4 +124,6 @@ moveGitFiles 'tutorial/scripts'    'pig-tutorial/scripts'
 git rm tutorial/build.xml
 cleanDir     'tutorial/'
 
-
+git rm build.xml
+git rm ivy/*
+cleanDir     '.'
