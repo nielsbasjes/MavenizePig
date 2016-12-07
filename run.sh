@@ -54,7 +54,11 @@ function cleanDir {
 mkdir -p pig-bzip2 pig-shock pig-core pig-piggybank pig-zebra pig-tutorial
 
 #Place pom files
-fgrep '=' ../OriginalPig/ivy/libraries.properties | sed 's@\(.*\)=\(.*\)@    <\1>\2</\1>@g' > pom.xml.versions
+fgrep '=' ../OriginalPig/ivy/libraries.properties \
+    | sed 's@\(.*\)=\(.*\)@    <\1>\2</\1>@g' \
+    | fgrep -v hbase \
+    | fgrep -v avro \
+    > pom.xml.versions
 sed -e '/INSERT IVY VERSIONS HERE/r pom.xml.versions' ../files/pom/pig-pom.xml | fgrep -v "INSERT IVY VERSIONS HERE" > pom.xml
 rm pom.xml.versions
 git add pom.xml

@@ -7,40 +7,16 @@
   <packaging>pom</packaging>
   <version>0.17.0-SNAPSHOT</version>
 
-  <profiles>
-    <profile>
-      <id>Hadoop20</id>
-      <activation><property><name>hadoopversion</name><value>20</value></property></activation>
-      <properties>
-        <hbase.version>${hbase94.version}</hbase.version>
-        <hbase.hadoop.version/>
-        <hadoop.version>2.0</hadoop.version>
-      </properties>
-    </profile>
-    <profile>
-      <id>Hadoop23</id>
-      <activation><property><name>hadoopversion</name><value>23</value></property></activation>
-      <properties>
-        <hbase.version>${hbase12.version}</hbase.version>
-        <hbase.hadoop.version>hadoop2</hbase.hadoop.version>
-        <hadoop.version>2.7.3</hadoop.version>
-      </properties>
-    </profile>
-
-  </profiles>
-
   <properties>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
 
-      <hadoopversion>23</hadoopversion>
-    <!--<hadoopversion>20</hadoopversion>-->
-
-    <hbase12.version>1.2.4</hbase12.version>
-    <hbase.hadoop.version>hadoop2</hbase.hadoop.version> <!-- Just to avoid warnings in the pom.xml -->
+    <hbase.version>1.2.4</hbase.version>
     <hadoop.version>2.7.3</hadoop.version>
+    <avro.version>1.8.1</avro.version>
 
     <junit.version>4.12</junit.version>
+
     @@@INSERT IVY VERSIONS HERE@@@
 
     <encoding>UTF-8</encoding>
@@ -126,7 +102,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8.1</version>
+      <version>${junit.version}</version>
     </dependency>
     <dependency>
       <groupId>hsqldb</groupId>
