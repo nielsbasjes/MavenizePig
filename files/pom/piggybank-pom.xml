@@ -56,7 +56,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.pig</groupId>
-      <artifactId>pig</artifactId>
+      <artifactId>pig-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
