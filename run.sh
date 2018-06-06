@@ -46,6 +46,8 @@ function gitMoveFiles {
         return
     fi
 
+    mkdir -p "${targetDir}"
+
     find ${sourceDir} -type d | while read name ; do mkdir -p ${targetDir}/$(echo ${name} | sed "s@^${sourceDir}@@g"); done
     if [ "x${filenames}" == "x" ];
     then
@@ -111,12 +113,16 @@ gitMoveFiles 'src/org/'         'core/src/main/javacc/org/'     '*.jj'
 gitMoveFiles 'src/org/'         'core/src/main/resources/org/'  # All remaining files
 cleanDir     'src/org/'
 
+# We ONLY do the Spark 2 thing
+git mv core/src/main/java/org/apache/pig/backend/hadoop/executionengine/spark/Spark1Shims.java{,__}
+git mv core/src/main/java/org/apache/pig/tools/pigstats/spark/Spark1JobStats.java{,__}
+
 #setup shims
-gitMoveFiles 'shims/src/hadoop23'                   'core/src/main/java'          '*.java'
-gitMoveFiles 'shims/test/hadoop23'                  'core/src/test/java'          '*.java'
-#gitMoveFiles 'shims/src/'                          'core/src/test/shims/'    '*.java'
+gitMoveFiles 'shims/src/hadoop2'                   'core/src/main/java'          '*.java'
+#gitMoveFiles 'shims/test/hadoop2'                  'core/src/test/java'          '*.java'
+#gitMoveFiles 'shims/src/'                         'core/src/test/shims/'    '*.java'
 cleanDir     'shims/src/'
-git rm -rf shims
+#git rm -rf shims
 
 
 #setup core/src/test
@@ -152,3 +158,5 @@ git rm -rf .eclipse.templates
 git rm build.xml
 git rm ivy/*
 cleanDir     '.'
+
+exit 0

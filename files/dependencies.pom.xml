@@ -124,8 +124,9 @@
     <dependency><groupId>org.jruby</groupId><artifactId>jruby-complete</artifactId><version>${jruby.version}</version></dependency>
     <dependency><groupId>asm</groupId><artifactId>asm</artifactId><version>${asm.version}</version></dependency>
 
-    <!--&lt;!&ndash; HBase dependency in format for releases higher or equal to 0.95 &ndash;&gt;-->
-    <!--<dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-client</artifactId><version>${hbase95.version}</version><exclusions>-->
+    <!-- HBase dependency in format for releases higher or equal to 0.95 -->
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-client</artifactId><version>${hbase.version}</version>
+    <!--<exclusions>-->
       <!--&lt;!&ndash;<artifact name="hbase-client" type="jar"/>&ndash;&gt;-->
       <!--&lt;!&ndash;<artifact name="hbase-client" type="test-jar" ext="jar" m:classifier="tests"/>&ndash;&gt;-->
       <!--<exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>-->
@@ -140,73 +141,74 @@
       <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>-->
       <!--<exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>-->
     <!--</exclusions>-->
+    <scope>provided</scope>
+    </dependency>
+
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-common</artifactId><version>${hbase.version}</version><exclusions>
+      <!--<artifact name="hbase-common" type="jar"/>-->
+      <!--<artifact name="hbase-common" type="test-jar" ext="jar" m:classifier="tests"/>-->
+      <exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>
+      <exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>
+      <exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>
+      <exclusion><groupId>javax.ws.rs</groupId><artifactId>jsr311-api</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>
+      <exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>
+    </exclusions>
+    </dependency>
+
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-server</artifactId><version>${hbase.version}</version>
+      <!--<artifact name="hbase-server" type="jar"/>-->
+      <!--<artifact name="hbase-server" type="test-jar" ext="jar" m:classifier="tests"/>-->
+<exclusions>
+      <exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+      <exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>
+      <exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>
+      <exclusion><groupId>javax.ws.rs</groupId><artifactId>jsr311-api</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>
+      <exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>
+  </exclusions>
+    </dependency>
+
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-protocol</artifactId><version>${hbase.version}</version><exclusions>
+      <!--<artifact name="hbase-protocol" type="jar"/>-->
+      <!--<artifact name="hbase-protocol" type="test-jar" ext="jar" m:classifier="tests"/>-->
+
+      <exclusion><groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId></exclusion>
+  </exclusions>
+
+    </dependency>
+
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-hadoop-compat</artifactId><version>${hbase.version}</version></dependency>
+      <!--<artifact name="hbase-hadoop-compat" type="jar"/>-->
+      <!--<artifact name="hbase-hadoop-compat" type="test-jar" ext="jar" m:classifier="tests"/>-->
     <!--</dependency>-->
 
-    <!--<dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-common</artifactId><version>${hbase95.version}</version><exclusions>-->
-      <!--&lt;!&ndash;<artifact name="hbase-common" type="jar"/>&ndash;&gt;-->
-      <!--&lt;!&ndash;<artifact name="hbase-common" type="test-jar" ext="jar" m:classifier="tests"/>&ndash;&gt;-->
-      <!--<exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>-->
-      <!--<exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>javax.ws.rs</groupId><artifactId>jsr311-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>-->
-      <!--<exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>-->
-      <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>-->
-      <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>-->
-      <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>-->
-      <!--<exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>-->
-    <!--</exclusions>-->
-    <!--</dependency>-->
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-hadoop2-compat</artifactId><version>${hbase.version}</version><exclusions>
+      <!--<artifact name="hbase-${hbase.hadoop.version}-compat" type="jar"/>-->
+      <!--<artifact name="hbase-${hbase.hadoop.version}-compat" type="test-jar" ext="jar" m:classifier="tests"/>-->
+      <exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>
+      <exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>
+      <exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>
+      <exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>
+  </exclusions>
 
-    <!--<dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-server</artifactId><version>${hbase95.version}</version>-->
-      <!--&lt;!&ndash;<artifact name="hbase-server" type="jar"/>&ndash;&gt;-->
-      <!--&lt;!&ndash;<artifact name="hbase-server" type="test-jar" ext="jar" m:classifier="tests"/>&ndash;&gt;-->
-<!--<exclusions>-->
-      <!--<exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>-->
-      <!--<exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>-->
-      <!--<exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>javax.ws.rs</groupId><artifactId>jsr311-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>-->
-      <!--<exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>-->
-      <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>-->
-      <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>-->
-      <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>-->
-      <!--<exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>-->
-  <!--</exclusions>-->
-    <!--</dependency>-->
-
-    <!--<dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-protocol</artifactId><version>${hbase95.version}</version><exclusions>-->
-      <!--&lt;!&ndash;<artifact name="hbase-protocol" type="jar"/>&ndash;&gt;-->
-      <!--&lt;!&ndash;<artifact name="hbase-protocol" type="test-jar" ext="jar" m:classifier="tests"/>&ndash;&gt;-->
-
-      <!--<exclusion><groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId></exclusion>-->
-  <!--</exclusions>-->
-
-    <!--</dependency>-->
-
-    <!--<dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-hadoop-compat</artifactId><version>${hbase95.version}</version></dependency>-->
-      <!--&lt;!&ndash;<artifact name="hbase-hadoop-compat" type="jar"/>&ndash;&gt;-->
-      <!--&lt;!&ndash;<artifact name="hbase-hadoop-compat" type="test-jar" ext="jar" m:classifier="tests"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-
-    <!--<dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-${hbase.hadoop.version}-compat</artifactId><version>${hbase95.version}</version><exclusions>-->
-      <!--&lt;!&ndash;<artifact name="hbase-${hbase.hadoop.version}-compat" type="jar"/>&ndash;&gt;-->
-      <!--&lt;!&ndash;<artifact name="hbase-${hbase.hadoop.version}-compat" type="test-jar" ext="jar" m:classifier="tests"/>&ndash;&gt;-->
-      <!--<exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>-->
-      <!--<exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>-->
-      <!--<exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>-->
-      <!--<exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>-->
-      <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>-->
-      <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>-->
-      <!--<exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>-->
-      <!--<exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>-->
-  <!--</exclusions>-->
-
-    <!--</dependency>-->
+    </dependency>
 
     <dependency><groupId>org.htrace</groupId><artifactId>htrace-core</artifactId><version>3.0.4</version></dependency>
     <dependency><groupId>org.apache.htrace</groupId><artifactId>htrace-core</artifactId><version>${htrace.version}</version></dependency>
@@ -272,7 +274,7 @@
 
     <dependency><groupId>org.mockito</groupId><artifactId>mockito-all</artifactId><version>${mockito.version}</version></dependency>
 
-    <!--<dependency><groupId>com.twitter</groupId><artifactId>parquet-pig-bundle</artifactId><version>${parquet-pig-bundle.version}</version></dependency>-->
+    <dependency><groupId>org.apache.parquet</groupId><artifactId>parquet-pig-bundle</artifactId><version>${parquet-pig-bundle.version}</version></dependency>
 
     <!-- for Tez integration -->
     <!--<dependency><groupId>org.apache.tez</groupId><artifactId>tez</artifactId><version>${tez.version}</version></dependency>-->
@@ -288,3 +290,11 @@
     <dependency><groupId>org.apache.commons</groupId><artifactId>commons-math3</artifactId><version>${commons-math3.version}</version></dependency>
     <dependency><groupId>org.apache.curator</groupId><artifactId>curator-framework</artifactId><version>${curator.version}</version></dependency>
     <dependency><groupId>org.apache.curator</groupId><artifactId>curator-client</artifactId><version>${curator.version}</version></dependency>
+
+    <!--for Spark integration -->
+    <!--<dependency><groupId>org.apache.spark</groupId><artifactId>spark-core_2.11</artifactId><version>${spark1.version}</version></dependency>-->
+    <!--<dependency><groupId>org.apache.spark</groupId><artifactId>spark-yarn_2.11</artifactId><version>${spark1.version}</version></dependency>-->
+    <dependency><groupId>org.apache.spark</groupId><artifactId>spark-core_2.11</artifactId><version>${spark2.version}</version></dependency>
+    <dependency><groupId>org.apache.spark</groupId><artifactId>spark-yarn_2.11</artifactId><version>${spark2.version}</version></dependency>
+
+

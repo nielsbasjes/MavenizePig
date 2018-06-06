@@ -8,7 +8,7 @@
     <artifactId>pig-parent</artifactId>
     <version>0.17.0-SNAPSHOT</version>
   </parent>
-  <artifactId>pig</artifactId>
+  <artifactId>pig-core</artifactId>
   <name>Apache Pig: Pig core</name>
 
   <url>http://maven.apache.org</url>
@@ -21,6 +21,15 @@
       <artifactId>pig-bzip2</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!--FIXME: This is nasty. We need the TESTS jar from hadoop because we use the JarFinder class from it.-->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>${hadoop-common.version}</version>
+      <classifier>tests</classifier>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>
