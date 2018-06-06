@@ -8,8 +8,9 @@
     <artifactId>pig-parent</artifactId>
     <version>0.17.0-SNAPSHOT</version>
   </parent>
-  <artifactId>pig-zebra</artifactId>
-  <name>pig-zebra</name>
+  <artifactId>pig</artifactId>
+  <name>Apache Pig: Pig core</name>
+
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,12 +18,24 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>pig-core</artifactId>
+      <artifactId>pig-bzip2</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr3-maven-plugin</artifactId>
+        <version>${antlr.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>antlr</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -36,7 +49,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>${basedir}/src/main/shims/hadoop${hadoopversion}</source>
+                <source>${project.build.directory}/generated-sources/antlr3</source>
                 <source>${project.build.directory}/generated-sources/javacc</source>
                 <source>${project.build.directory}/generated-sources/jjtree</source>
               </sources>
@@ -50,11 +63,22 @@
             </goals>
             <configuration>
               <sources>
-                <source>${basedir}/src/test/shims/hadoop${hadoopversion}</source>
                 <source>${project.build.directory}/test-generated-sources/javacc</source>
                 <source>${project.build.directory}/generated-sources/jjtree</source>
               </sources>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -66,12 +90,31 @@
           <execution>
             <id>javacc</id>
             <goals>
+              <goal>javacc</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>test</id>
+            <phase>generate-test-sources</phase>
+            <goals>
               <goal>jjtree-javacc</goal>
             </goals>
+            <configuration>
+              <sourceDirectory>src/test/javacc</sourceDirectory>
+              <outputDirectory>${project.build.directory}/test-generated-sources/javacc</outputDirectory>
+            </configuration>
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/0.10.0.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
 </project>

@@ -8,18 +8,17 @@
     <artifactId>pig-parent</artifactId>
     <version>0.17.0-SNAPSHOT</version>
   </parent>
-  <artifactId>pig-shock</artifactId>
-  <name>pig-shock</name>
+  <artifactId>pig-tutorial</artifactId>
+  <name>Apache Pig: Tutorial</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>pig-core</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

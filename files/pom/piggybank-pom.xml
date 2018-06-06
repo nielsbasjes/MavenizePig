@@ -25,6 +25,9 @@
   </parent>
   <artifactId>piggybank</artifactId>
   <packaging>jar</packaging>
+
+  <name>Apache Pig: Piggybank</name>
+
   <dependencies>
     <dependency>
       <groupId>commons-lang</groupId>

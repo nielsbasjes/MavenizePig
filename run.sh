@@ -1,18 +1,41 @@
 #!/bin/bash
+#-x
 
 # Partially copied from the attachment that is part of https://issues.apache.org/jira/browse/PIG-2599
 
 # Clone the original pig from github
-[ -d OriginalPig ] || git clone https://github.com/apache/pig OriginalPig
-
-if [ ! -d pig ];
+if [ ! -d OriginalPig ];
 then
-    rm -rf pig
-    cp -a OriginalPig pig
+    git clone https://github.com/apache/pig OriginalPig
 fi
+
+rm -rf pig
+cp -a OriginalPig pig
 cd pig
 
-function moveGitFiles {
+# Ignore IntelliJ
+echo ".idea" >> .gitignore
+
+pwd
+
+# MANUAL ACTIONS IN INTELLIJ S(earch) and R(eplace) in ivy.xml
+
+# Edit: Keep only the dependencies part
+
+#S:  "\n$
+#R:  "
+
+#S: changing="true"
+
+#S:  <dependency +org="([^"]+)" *name="([^"]+)" *rev="([^"]+)"  *conf="([^"]+)" */?>
+#R:  <dependency><groupId>$1</groupId><artifactId>$2</artifactId><version>$3</version></dependency>
+
+#S:  <exclude +org="([^"]+)" *module="([^"]+)" */?>
+#R:  <exclusion><groupId>$1</groupId><artifactId>$2</artifactId></exclusion>
+
+# And then fix it all manually
+
+function gitMoveFiles {
     sourceDir="$1"
     targetDir="$2"
     filenames="$3"
@@ -51,7 +74,7 @@ function cleanDir {
     [ -d ${sourceDir} ] && find ${sourceDir} -type d | xargs rmdir > /dev/null 2>&1
 }
 
-mkdir -p pig-bzip2 pig-shock pig-core pig-piggybank pig-zebra pig-tutorial
+mkdir -p bzip2 core piggybank tutorial
 
 #Place pom files
 fgrep '=' ../OriginalPig/ivy/libraries.properties \
@@ -59,74 +82,72 @@ fgrep '=' ../OriginalPig/ivy/libraries.properties \
     | fgrep -v hbase \
     | fgrep -v avro \
     > pom.xml.versions
-sed -e '/INSERT IVY VERSIONS HERE/r pom.xml.versions' ../files/pom/pig-pom.xml | fgrep -v "INSERT IVY VERSIONS HERE" > pom.xml
+
+cat ../files/pom/pig-pom.xml  \
+    | sed -e '/INSERT IVY VERSIONS HERE/r pom.xml.versions' | fgrep -v "INSERT IVY VERSIONS HERE" \
+    | sed -e '/INSERT IVY DEPENDENCIES HERE/r ../files/dependencies.pom.xml' | fgrep -v "INSERT IVY DEPENDENCIES HERE" \
+    | fgrep -v jersey-core \
+    | fgrep -v hadoop-core \
+    | fgrep -v hadoop-test \
+    > pom.xml
 rm pom.xml.versions
+
 git add pom.xml
 
-cp ../files/pom/pig-bzip2-pom.xml     pig-bzip2/pom.xml      && git add pig-bzip2/pom.xml
-cp ../files/pom/pig-shock-pom.xml     pig-shock/pom.xml      && git add pig-shock/pom.xml
-cp ../files/pom/pig-core-pom.xml      pig-core/pom.xml       && git add pig-core/pom.xml
-cp ../files/pom/pig-piggybank-pom.xml pig-piggybank/pom.xml  && git add pig-piggybank/pom.xml
-cp ../files/pom/pig-zebra-pom.xml     pig-zebra/pom.xml      && git add pig-zebra/pom.xml
-cp ../files/pom/pig-tutorial-pom.xml  pig-tutorial/pom.xml   && git add pig-tutorial/pom.xml
+cp ../files/pom/bzip2-pom.xml     bzip2/pom.xml      && git add bzip2/pom.xml
+cp ../files/pom/core-pom.xml      core/pom.xml       && git add core/pom.xml
+cp ../files/pom/piggybank-pom.xml piggybank/pom.xml  && git add piggybank/pom.xml
+cp ../files/pom/tutorial-pom.xml  tutorial/pom.xml   && git add tutorial/pom.xml
 
-moveGitFiles 'lib-src/bzip2/org/apache/tools'   'pig-bzip2/src/main/java/org/apache/tools' '*.java'
-moveGitFiles 'lib-src/bzip2/org/apache/pig'     'pig-core/src/main/java/org/apache/pig' '*.java'
+gitMoveFiles 'lib-src/bzip2/org/apache/tools'   'bzip2/src/main/java/org/apache/tools'  '*.java'
+gitMoveFiles 'lib-src/bzip2/org/apache/pig'     'core/src/main/java/org/apache/pig'     '*.java'
 cleanDir     'lib-src/'
 
-#setup pig-shock/*
-#git mv lib-src/shock/ pig-shock/src/main/java/                          # --include \*.java
-
-#setup pig-core/src/main
-moveGitFiles 'src/org/'         'pig-core/src/main/java/org/'       '*.java'
-moveGitFiles 'src/org/'         'pig-core/src/main/java/org/'       'package.html'
-moveGitFiles 'src/org/'         'pig-core/src/main/antlr3/org/'     '*.g'
-moveGitFiles 'src/org/'         'pig-core/src/main/javacc/org/'     '*.jj'
-moveGitFiles 'src/org/'         'pig-core/src/main/resources/org/'  # All remaining files
+#setup core/src/main
+gitMoveFiles 'src/org/'         'core/src/main/java/org/'       '*.java'
+gitMoveFiles 'src/org/'         'core/src/main/java/org/'       'package.html'
+gitMoveFiles 'src/org/'         'core/src/main/antlr3/org/'     '*.g'
+gitMoveFiles 'src/org/'         'core/src/main/javacc/org/'     '*.jj'
+gitMoveFiles 'src/org/'         'core/src/main/resources/org/'  # All remaining files
 cleanDir     'src/org/'
 
 #setup shims
-moveGitFiles 'shims/src/'       'pig-core/src/main/shims/'          '*.java'
-moveGitFiles 'shims/src/'       'pig-core/src/test/shims/'          '*.java'
+gitMoveFiles 'shims/src/hadoop23'                   'core/src/main/java'          '*.java'
+gitMoveFiles 'shims/test/hadoop23'                  'core/src/test/java'          '*.java'
+#gitMoveFiles 'shims/src/'                          'core/src/test/shims/'    '*.java'
 cleanDir     'shims/src/'
+git rm -rf shims
 
 
-
-#setup pig-core/src/test
-moveGitFiles 'test/org/'        'pig-core/src/test/java/'           '*.java'
-moveGitFiles 'test/org/'        'pig-core/src/test/javacc/'         '*.jjt'
-moveGitFiles 'test/org/'        'pig-core/src/test/pig/'            '*.pig'
-moveGitFiles 'test/org/'        'pig-core/src/test/resources/'
+#setup core/src/test
+gitMoveFiles 'test/org/'        'core/src/test/java/'           '*.java'
+gitMoveFiles 'test/org/'        'core/src/test/javacc/'         '*.jjt'
+gitMoveFiles 'test/org/'        'core/src/test/pig/'            '*.pig'
+gitMoveFiles 'test/org/'        'core/src/test/resources/'
 cleanDir     'test/org/'
 
-#setup pig-piggybank/*
-moveGitFiles 'contrib/piggybank/java/src/main/java/org/'   'pig-piggybank/src/main/java/org/'           '*.java'
-moveGitFiles 'contrib/piggybank/java/src/main/java/org/'   'pig-piggybank/src/main/resources/org/'
-moveGitFiles 'contrib/piggybank/java/src/test/java/org/'   'pig-piggybank/src/test/java/org/'           '*.java'
-moveGitFiles 'contrib/piggybank/java/src/test/java/org/'   'pig-piggybank/src/test/resources/org/'
+#setup piggybank/*
+gitMoveFiles 'contrib/piggybank/java/src/main/java/org/'   'piggybank/src/main/java/org/'           '*.java'
+gitMoveFiles 'contrib/piggybank/java/src/main/java/org/'   'piggybank/src/main/resources/org/'
+gitMoveFiles 'contrib/piggybank/java/src/test/java/org/'   'piggybank/src/test/java/org/'           '*.java'
+gitMoveFiles 'contrib/piggybank/java/src/test/java/org/'   'piggybank/src/test/resources/org/'
 git rm ./contrib/piggybank/java/build.xml
 git rm ./contrib/piggybank/java/lib/.gitignore
 
 # TODO: Check if this is Ok. This changelog has not been updated since 2013
-git rm ./contrib/CHANGES.txt
-cleanDir     'contrib/piggybank/'
-
-#setup zebra/*
-moveGitFiles 'contrib/zebra/src/java/org/'   'pig-zebra/src/main/java/org/'       '*.java'
-moveGitFiles 'contrib/zebra/src/java/org/'   'pig-zebra/src/main/jjtree/org/'     '*.jjt'
-moveGitFiles 'contrib/zebra/src/java/org/'   'pig-zebra/src/main/resources/org/'
-
-moveGitFiles 'contrib/zebra/src/test/org/'   'pig-zebra/src/test/java/org/'       '*.java'
-moveGitFiles 'contrib/zebra/src/test/org/'   'pig-zebra/src/test/resources/org/'
-cleanDir     'contrib/zebra/'
+git mv ./contrib/CHANGES.txt 'piggybank/'
+cleanDir     'contrib'
 
 #setup tutorial
-moveGitFiles 'tutorial/src/org/'   'pig-tutorial/src/main/java/org/'              '*.java'
-moveGitFiles 'tutorial/src/org/'   'pig-tutorial/src/main/resources/org/'
-moveGitFiles 'tutorial/data'       'pig-tutorial/data'
-moveGitFiles 'tutorial/scripts'    'pig-tutorial/scripts'
+gitMoveFiles 'tutorial/src/org/'   'tutorial/src/main/java/org/'              '*.java'
+gitMoveFiles 'tutorial/src/org/'   'tutorial/src/main/resources/org/'
+#gitMoveFiles 'tutorial/data'       'tutorial/data'
+#gitMoveFiles 'tutorial/scripts'    'tutorial/scripts'
 git rm tutorial/build.xml
 cleanDir     'tutorial/'
+
+# Remove stuff no longer useful
+git rm -rf .eclipse.templates
 
 git rm build.xml
 git rm ivy/*
