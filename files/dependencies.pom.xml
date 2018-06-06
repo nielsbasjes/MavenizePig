@@ -219,7 +219,7 @@
 
     <!-- for TestHBaseStorage -->
     <!--<dependency><groupId>com.github.stephenc.high-scale-lib</groupId><artifactId>high-scale-lib</artifactId><version>${high-scale-lib.version}</version></dependency>-->
-    <dependency><groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId><version>${protobuf-java.version}</version></dependency>
+    <!--<dependency><groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId><version>${protobuf-java.version}</version></dependency>-->
     <dependency><groupId>com.yammer.metrics</groupId><artifactId>metrics-core</artifactId><version>${metrics-core.version}</version></dependency>
 
     <!-- Dependency for Accumulo{Input,Output}Format -->
@@ -259,7 +259,7 @@
     </dependency>
 
     <!-- for piggybank -->
-    <!--<dependency><groupId>hsqldb</groupId><artifactId>hsqldb</artifactId><version>${hsqldb.version}</version></dependency>-->
+    <dependency><groupId>org.hsqldb</groupId><artifactId>hsqldb</artifactId><version>${hsqldb.version}</version><scope>test</scope></dependency>
     <dependency><groupId>org.apache.hive</groupId><artifactId>hive-exec</artifactId><version>${hive.version}</version><classifier>core</classifier></dependency>
     <dependency><groupId>org.apache.hive</groupId><artifactId>hive-serde</artifactId><version>${hive.version}</version></dependency>
     <dependency><groupId>org.apache.hive</groupId><artifactId>hive-common</artifactId><version>${hive.version}</version></dependency>

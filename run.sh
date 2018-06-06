@@ -126,7 +126,7 @@ cleanDir     'shims/src/'
 
 
 #setup core/src/test
-gitMoveFiles 'test/org/'        'core/src/test/java/'           '*.java'
+gitMoveFiles 'test/org/'        'core/src/test/java/org/'           '*.java'
 gitMoveFiles 'test/org/'        'core/src/test/javacc/'         '*.jjt'
 gitMoveFiles 'test/org/'        'core/src/test/pig/'            '*.pig'
 gitMoveFiles 'test/org/'        'core/src/test/resources/'
