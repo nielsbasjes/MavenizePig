@@ -116,7 +116,7 @@ gitMoveFiles 'test/org/'        'core/src/test/resources/org/'
 cleanDir     'test/org/'
 # Fix the paths where the test files can be located
 find core/src/test/ -type f | xargs -n1 sed -i 's@test/org/apache/pig/test/data/@src/test/resources/org/apache/pig/test/data/@g'
-find core/src/test/ -type f | xargs -n1 sed -i 's@new File("build/@new File("target/@g'
+find core/src/test/ -type f | xargs -n1 sed -i 's@"build/@"target/@g'
 
 #setup piggybank/*
 gitMoveFiles 'contrib/piggybank/java/src/main/java/org/'   'piggybank/src/main/java/org/'           '*.java'
@@ -128,7 +128,7 @@ git rm ./contrib/piggybank/java/lib/.gitignore
 
 # Fix the paths where the test files can be located
 find piggybank/src/test/ -type f | xargs -n1 sed -i 's@src/test/java/org/apache/pig/piggybank/test/@src/test/resources/org/apache/pig/piggybank/test/@g'
-find piggybank/src/test/ -type f | xargs -n1 sed -i 's@new File("build/@new File("target/@g'
+find piggybank/src/test/ -type f | xargs -n1 sed -i 's@"build/@"target/@g'
 
 # TODO: Check if this is Ok. This changelog has not been updated since 2013
 git mv ./contrib/CHANGES.txt 'piggybank/'
