@@ -23,6 +23,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <hbase.version>1.2.4</hbase.version>
+    <hbase1.version>${hbase.version}</hbase1.version>
     <hadoop.version>2.7.3</hadoop.version>
     <avro.version>1.7.5</avro.version>
 
@@ -43,8 +44,10 @@
 
   <dependencies>
 
+
     @@@INSERT IVY DEPENDENCIES HERE@@@
 
+    <!--<dependency><groupId>com.sun.jersey</groupId><artifactId>jersey-servlet</artifactId><version>${jersey.version}</version></dependency>-->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-client</artifactId>

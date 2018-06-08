@@ -18,23 +18,6 @@ echo ".idea" >> .gitignore
 
 pwd
 
-# MANUAL ACTIONS IN INTELLIJ S(earch) and R(eplace) in ivy.xml
-
-# Edit: Keep only the dependencies part
-
-#S:  "\n$
-#R:  "
-
-#S: changing="true"
-
-#S:  <dependency +org="([^"]+)" *name="([^"]+)" *rev="([^"]+)"  *conf="([^"]+)" */?>
-#R:  <dependency><groupId>$1</groupId><artifactId>$2</artifactId><version>$3</version></dependency>
-
-#S:  <exclude +org="([^"]+)" *module="([^"]+)" */?>
-#R:  <exclusion><groupId>$1</groupId><artifactId>$2</artifactId></exclusion>
-
-# And then fix it all manually
-
 function gitMoveFiles {
     sourceDir="$1"
     targetDir="$2"
@@ -88,9 +71,8 @@ fgrep '=' ../OriginalPig/ivy/libraries.properties \
 cat ../files/pom/pig-pom.xml  \
     | sed -e '/INSERT IVY VERSIONS HERE/r pom.xml.versions' | fgrep -v "INSERT IVY VERSIONS HERE" \
     | sed -e '/INSERT IVY DEPENDENCIES HERE/r ../files/dependencies.pom.xml' | fgrep -v "INSERT IVY DEPENDENCIES HERE" \
-    | fgrep -v jersey-core \
-    | fgrep -v hadoop-core \
-    | fgrep -v hadoop-test \
+    | fgrep -v 'DUMMYdependencies' \
+    | sed 's@<jersey.version>1.8</jersey.version>@<jersey.version>1.9</jersey.version>@' \
     > pom.xml
 rm pom.xml.versions
 

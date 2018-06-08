@@ -1,0 +1,301 @@
+    <dependency><groupId>checkstyle</groupId><artifactId>checkstyle</artifactId><version>${checkstyle.version}</version></dependency>
+    <dependency><groupId>commons-beanutils</groupId><artifactId>commons-beanutils-core</artifactId><version>${commons-beanutils.version}</version></dependency>
+    <dependency><groupId>xmlenc</groupId><artifactId>xmlenc</artifactId><version>${xmlenc.version}</version></dependency>
+    <dependency><groupId>com.sun.jersey</groupId><artifactId>jersey-bundle</artifactId><version>${jersey.version}</version></dependency>
+    <dependency><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId><version>${jersey.version}</version></dependency>
+    <dependency><groupId>com.sun.jersey.contribs</groupId><artifactId>jersey-guice</artifactId><version>${jersey.version}</version></dependency>
+    <dependency><groupId>commons-codec</groupId><artifactId>commons-codec</artifactId><version>${commons-codec.version}</version></dependency>
+    <dependency><groupId>commons-httpclient</groupId><artifactId>commons-httpclient</artifactId><version>${commons-httpclient.version}</version></dependency>
+    <dependency><groupId>commons-el</groupId><artifactId>commons-el</artifactId><version>${commons-el.version}</version></dependency>
+    <dependency><groupId>commons-io</groupId><artifactId>commons-io</artifactId><version>${commons-io.version}</version></dependency>
+    <dependency><groupId>org.apache.httpcomponents</groupId><artifactId>httpclient</artifactId><version>${httpcomponents.version}</version></dependency>
+    <dependency><groupId>org.apache.httpcomponents</groupId><artifactId>httpcore</artifactId><version>${httpcomponents.version}</version></dependency>
+    <dependency><groupId>nl.basjes.parse.httpdlog</groupId><artifactId>httpdlog-pigloader</artifactId><version>${basjes-httpdlog-pigloader.version}</version></dependency>
+    <dependency><groupId>nl.basjes.parse.httpdlog</groupId><artifactId>httpdlog-inputformat</artifactId><version>${basjes-httpdlog-pigloader.version}</version></dependency>
+    <dependency><groupId>nl.basjes.parse.httpdlog</groupId><artifactId>httpdlog-parser</artifactId><version>${basjes-httpdlog-pigloader.version}</version></dependency>
+    <dependency><groupId>nl.basjes.parse</groupId><artifactId>parser-core</artifactId><version>${basjes-httpdlog-pigloader.version}</version></dependency>
+    <dependency><groupId>commons-configuration</groupId><artifactId>commons-configuration</artifactId><version>${commons-configuration.version}</version></dependency>
+    <dependency><groupId>commons-collections</groupId><artifactId>commons-collections</artifactId><version>${commons-collections.version}</version></dependency>
+    <dependency><groupId>javax.servlet</groupId><artifactId>servlet-api</artifactId><version>${servlet-api.version}</version></dependency>
+    <dependency><groupId>javax.ws.rs</groupId><artifactId>jsr311-api</artifactId><version>${jsr311-api.version}</version></dependency>
+    <dependency><groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId><version>${protobuf-java.version}</version></dependency>
+    <dependency><groupId>javax.inject</groupId><artifactId>javax.inject</artifactId><version>${javax-inject.version}</version></dependency>
+    <dependency><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId><version>${jaxb-api.version}</version></dependency>
+    <dependency><groupId>com.sun.xml.bind</groupId><artifactId>jaxb-impl</artifactId><version>${jaxb-impl.version}</version></dependency>
+    <dependency><groupId>com.google.inject</groupId><artifactId>guice</artifactId><version>${guice.version}</version></dependency>
+    <dependency><groupId>com.google.inject.extensions</groupId><artifactId>guice-servlet</artifactId><version>${guice-servlet.version}</version></dependency>
+    <dependency><groupId>aopalliance</groupId><artifactId>aopalliance</artifactId><version>${aopalliance.version}</version></dependency>
+    <dependency><groupId>org.mortbay.jetty</groupId><artifactId>jsp-2.1</artifactId><version>${jasper.version}</version></dependency>
+    <dependency><groupId>org.mortbay.jetty</groupId><artifactId>jsp-api-2.1</artifactId><version>${jasper.version}</version></dependency>
+    <dependency><groupId>log4j</groupId><artifactId>log4j</artifactId><version>${log4j.version}</version></dependency>
+    <dependency><groupId>com.sun.jersey</groupId><artifactId>hadoop-core</artifactId><version>${jersey-core.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId><version>${hadoop-core.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-test</artifactId><version>${hadoop-test.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-annotations</artifactId><version>${hadoop-common.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-auth</artifactId><version>${hadoop-common.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-common</artifactId><version>${hadoop-common.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-common</artifactId><version>${hadoop-common.version}</version><scope>test</scope><classifier>tests</classifier></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-hdfs</artifactId><version>${hadoop-hdfs.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-hdfs</artifactId><version>${hadoop-hdfs.version}</version><scope>test</scope><classifier>tests</classifier></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-mapreduce-client-core</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-mapreduce-client-jobclient</artifactId><version>${hadoop-mapreduce.version}</version>
+      <exclusions>
+      <exclusion><groupId>commons-daemon</groupId><artifactId>commons-daemon</artifactId></exclusion><!--bad POM-->
+      <exclusion><groupId>org.apache.commons</groupId><artifactId>commons-daemon</artifactId></exclusion><!--bad POM-->
+      </exclusions>
+    </dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-mapreduce-client-jobclient</artifactId><version>${hadoop-mapreduce.version}</version><scope>test</scope><classifier>tests</classifier></dependency>
+
+
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-server-tests</artifactId><version>${hadoop-mapreduce.version}</version><classifier>tests</classifier></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-mapreduce-client-app</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-mapreduce-client-shuffle</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-mapreduce-client-common</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-api</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-common</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <!--<dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-server</artifactId><version>${hadoop-mapreduce.version}</version></dependency>-->
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-server-web-proxy</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-server-common</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-server-nodemanager</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-server-resourcemanager</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-client</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-yarn-server-applicationhistoryservice</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.apache.hadoop</groupId><artifactId>hadoop-mapreduce-client-hs</artifactId><version>${hadoop-mapreduce.version}</version></dependency>
+    <dependency><groupId>org.mortbay.jetty</groupId><artifactId>jetty</artifactId><version>${jetty.version}</version></dependency>
+    <dependency><groupId>org.mortbay.jetty</groupId><artifactId>jetty-util</artifactId><version>${jetty.version}</version></dependency>
+    <dependency><groupId>commons-logging</groupId><artifactId>commons-logging</artifactId><version>${commons-logging.version}</version></dependency>
+    <dependency><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId><version>${slf4j-log4j12.version}</version></dependency>
+    <dependency><groupId>commons-cli</groupId><artifactId>commons-cli</artifactId><version>${commons-cli.version}</version></dependency>
+    <dependency><groupId>org.apache.avro</groupId><artifactId>avro</artifactId><version>${avro.version}</version><exclusions>
+      <exclusion><groupId>org.codehaus.jackson</groupId><artifactId>jackson-core-asl</artifactId></exclusion>
+      <exclusion><groupId>org.codehaus.jackson</groupId><artifactId>jackson-mapper-asl</artifactId></exclusion>
+    </exclusions>
+    </dependency>
+    <dependency><groupId>org.apache.avro</groupId><artifactId>avro-mapred</artifactId><version>${avro.version}</version><exclusions>
+      <exclusion><groupId>org.codehaus.jackson</groupId><artifactId>jackson-core-asl</artifactId></exclusion>
+      <exclusion><groupId>org.codehaus.jackson</groupId><artifactId>jackson-mapper-asl</artifactId></exclusion>
+      <exclusion><groupId>io.netty</groupId><artifactId>netty</artifactId></exclusion>
+    </exclusions>
+    </dependency>
+    <dependency><groupId>org.apache.avro</groupId><artifactId>avro-mapred</artifactId><version>${avro.version}</version><classifier>hadoop2</classifier><exclusions>
+      <exclusion><groupId>org.codehaus.jackson</groupId><artifactId>jackson-core-asl</artifactId></exclusion>
+      <exclusion><groupId>org.codehaus.jackson</groupId><artifactId>jackson-mapper-asl</artifactId></exclusion>
+      <exclusion><groupId>io.netty</groupId><artifactId>netty</artifactId></exclusion>
+  </exclusions>
+    </dependency>
+    <dependency><groupId>org.apache.avro</groupId><artifactId>trevni-core</artifactId><version>${avro.version}</version></dependency>
+      <!--<artifact name="trevni-core" ext="jar" />-->
+      <!--<artifact name="trevni-core" type="test-jar" ext="jar" m:classifier="tests"/>-->
+    <!--</dependency>-->
+    <dependency><groupId>org.apache.avro</groupId><artifactId>trevni-avro</artifactId><version>${avro.version}</version><exclusions>
+      <!--<artifact name="trevni-avro" ext="jar" />-->
+      <!--<artifact name="trevni-avro" type="test-jar" ext="jar" m:classifier="tests"/>-->
+      <exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>
+    </exclusions>
+    </dependency>
+    <dependency><groupId>org.apache.avro</groupId><artifactId>avro-tools</artifactId><version>${avro.version}</version><classifier>nodeps</classifier></dependency>
+    <dependency><groupId>net.sf.jopt-simple</groupId><artifactId>jopt-simple</artifactId><version>${jopt.version}</version></dependency>
+    <dependency><groupId>org.xerial.snappy</groupId><artifactId>snappy-java</artifactId><version>${snappy-java.version}</version></dependency>
+    <dependency><groupId>com.googlecode.json-simple</groupId><artifactId>json-simple</artifactId><version>${json-simple.version}</version></dependency>
+    <dependency><groupId>jdiff</groupId><artifactId>jdiff</artifactId><version>${jdiff.version}</version></dependency>
+    <dependency><groupId>xalan</groupId><artifactId>xalan</artifactId><version>${xalan.version}</version></dependency>
+    <dependency><groupId>xerces</groupId><artifactId>xercesImpl</artifactId><version>${xerces.version}</version></dependency>
+    <dependency><groupId>jline</groupId><artifactId>jline</artifactId><version>${jline.version}</version></dependency>
+    <dependency><groupId>net.java.dev.javacc</groupId><artifactId>javacc</artifactId><version>${javacc.version}</version></dependency>
+    <dependency><groupId>junit</groupId><artifactId>junit</artifactId><version>${junit.version}</version></dependency>
+    <dependency><groupId>com.google.code.p.arat</groupId><artifactId>rat-lib</artifactId><version>${rats-lib.version}</version></dependency>
+    <dependency><groupId>org.codehaus.groovy</groupId><artifactId>groovy-all</artifactId><version>${groovy.version}</version></dependency>
+    <dependency><groupId>org.apache.ivy</groupId><artifactId>ivy</artifactId><version>${ivy.version}</version></dependency>
+    <dependency><groupId>org.codehaus.jackson</groupId><artifactId>jackson-mapper-asl</artifactId><version>${jackson.version}</version></dependency>
+    <dependency><groupId>org.codehaus.jackson</groupId><artifactId>jackson-core-asl</artifactId><version>${jackson.version}</version></dependency>
+    <dependency><groupId>org.fusesource.jansi</groupId><artifactId>jansi</artifactId><version>${jansi.version}</version></dependency>
+    <dependency><groupId>joda-time</groupId><artifactId>joda-time</artifactId><version>${joda-time.version}</version></dependency>
+    <dependency><groupId>commons-lang</groupId><artifactId>commons-lang</artifactId><version>${commons-lang.version}</version></dependency>
+    <dependency><groupId>com.google.guava</groupId><artifactId>guava</artifactId><version>${guava.version}</version></dependency>
+    <dependency><groupId>org.python</groupId><artifactId>jython-standalone</artifactId><version>${jython.version}</version></dependency>
+    <dependency><groupId>rhino</groupId><artifactId>js</artifactId><version>${rhino.version}</version></dependency>
+    <dependency><groupId>org.antlr</groupId><artifactId>antlr</artifactId><version>${antlr.version}</version></dependency>
+    <dependency><groupId>org.antlr</groupId><artifactId>antlr-runtime</artifactId><version>${antlr.version}</version></dependency>
+    <dependency><groupId>org.antlr</groupId><artifactId>ST4</artifactId><version>${stringtemplate.version}</version></dependency>
+    <dependency><groupId>org.apache.zookeeper</groupId><artifactId>zookeeper</artifactId><version>${zookeeper.version}</version></dependency>
+    <dependency><groupId>io.netty</groupId><artifactId>netty</artifactId><version>${netty.version}</version></dependency>
+    <dependency><groupId>dk.brics.automaton</groupId><artifactId>automaton</artifactId><version>1.11-8</version></dependency>
+
+    <dependency><groupId>org.jruby</groupId><artifactId>jruby-complete</artifactId><version>${jruby.version}</version></dependency>
+    <dependency><groupId>asm</groupId><artifactId>asm</artifactId><version>${asm.version}</version></dependency>
+
+    <!-- HBase dependency in format for releases higher or equal to 0.95 -->
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-client</artifactId><version>${hbase.version}</version>
+    <exclusions>
+      <!--<artifact name="hbase-client" type="jar"/>-->
+      <!--<artifact name="hbase-client" type="test-jar" ext="jar" m:classifier="tests"/>-->
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+      <exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>
+      <exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>
+      <exclusion><groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>
+      <exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>
+    </exclusions>
+    </dependency>
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-server</artifactId><scope>test</scope><classifier>tests</classifier><version>${hbase.version}</version></dependency>
+
+
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-common</artifactId><version>${hbase.version}</version><exclusions>
+      <!--<artifact name="hbase-common" type="jar"/>-->
+      <!--<artifact name="hbase-common" type="test-jar" ext="jar" m:classifier="tests"/>-->
+      <exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>
+      <exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>
+      <exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>
+      <exclusion><groupId>javax.ws.rs</groupId><artifactId>jsr311-api</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>
+      <exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>
+    </exclusions>
+    </dependency>
+
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-server</artifactId><version>${hbase.version}</version>
+      <!--<artifact name="hbase-server" type="jar"/>-->
+      <!--<artifact name="hbase-server" type="test-jar" ext="jar" m:classifier="tests"/>-->
+<exclusions>
+      <exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+      <exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>
+      <exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>
+      <exclusion><groupId>javax.ws.rs</groupId><artifactId>jsr311-api</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>
+      <exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>
+  </exclusions>
+    </dependency>
+
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-protocol</artifactId><version>${hbase.version}</version><exclusions>
+      <!--<artifact name="hbase-protocol" type="jar"/>-->
+      <!--<artifact name="hbase-protocol" type="test-jar" ext="jar" m:classifier="tests"/>-->
+
+      <exclusion><groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId></exclusion>
+  </exclusions>
+
+    </dependency>
+
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-hadoop-compat</artifactId><version>${hbase.version}</version></dependency>
+      <!--<artifact name="hbase-hadoop-compat" type="jar"/>-->
+      <!--<artifact name="hbase-hadoop-compat" type="test-jar" ext="jar" m:classifier="tests"/>-->
+    <!--</dependency>-->
+
+    <dependency><groupId>org.apache.hbase</groupId><artifactId>hbase-hadoop2-compat</artifactId><version>${hbase.version}</version><exclusions>
+      <!--<artifact name="hbase-${hbase.hadoop.version}-compat" type="jar"/>-->
+      <!--<artifact name="hbase-${hbase.hadoop.version}-compat" type="test-jar" ext="jar" m:classifier="tests"/>-->
+      <exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-core</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>
+      <exclusion><groupId>stax</groupId><artifactId>stax-api</artifactId></exclusion>
+      <exclusion><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-runtime</artifactId></exclusion>
+      <exclusion><groupId>tomcat</groupId><artifactId>jasper-compiler</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-core</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-server</artifactId></exclusion>
+      <exclusion><groupId>com.sun.jersey</groupId><artifactId>jersey-json</artifactId></exclusion>
+      <exclusion><groupId>asm</groupId><artifactId>asm</artifactId></exclusion>
+  </exclusions>
+
+    </dependency>
+
+    <dependency><groupId>org.htrace</groupId><artifactId>htrace-core</artifactId><version>3.0.4</version></dependency>
+    <dependency><groupId>org.apache.htrace</groupId><artifactId>htrace-core</artifactId><version>${htrace.version}</version></dependency>
+    <dependency><groupId>org.fusesource.leveldbjni</groupId><artifactId>leveldbjni-all</artifactId><version>${leveldbjni.version}</version></dependency>
+    <dependency><groupId>org.cloudera.htrace</groupId><artifactId>htrace-core</artifactId><version>2.00</version></dependency>
+    <dependency><groupId>com.lmax</groupId><artifactId>disruptor</artifactId><version>3.3.0</version></dependency>
+
+    <!-- for TestHBaseStorage -->
+    <!--<dependency><groupId>com.github.stephenc.high-scale-lib</groupId><artifactId>high-scale-lib</artifactId><version>${high-scale-lib.version}</version></dependency>-->
+    <dependency><groupId>com.google.protobuf</groupId><artifactId>protobuf-java</artifactId><version>${protobuf-java.version}</version></dependency>
+    <dependency><groupId>com.yammer.metrics</groupId><artifactId>metrics-core</artifactId><version>${metrics-core.version}</version></dependency>
+
+    <!-- Dependency for Accumulo{Input,Output}Format -->
+    <dependency><groupId>org.apache.accumulo</groupId><artifactId>accumulo-core</artifactId><version>${accumulo15.version}</version><exclusions>
+      <exclusion><groupId>com.google.guava</groupId><artifactId>guava</artifactId></exclusion>
+      <exclusion><groupId>commons-codec</groupId><artifactId>commons-codec</artifactId></exclusion>
+      <exclusion><groupId>commons-collections</groupId><artifactId>commons-collections</artifactId></exclusion>
+      <exclusion><groupId>commons-configuration</groupId><artifactId>commons-configuration</artifactId></exclusion>
+      <exclusion><groupId>commons-io</groupId><artifactId>commons-io</artifactId></exclusion>
+      <exclusion><groupId>commons-lang</groupId><artifactId>commons-lang</artifactId></exclusion>
+      <exclusion><groupId>commons-logging</groupId><artifactId>commons-logging</artifactId></exclusion>
+      <exclusion><groupId>jline</groupId><artifactId>jline</artifactId></exclusion>
+      <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+      <exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-client</artifactId></exclusion>
+      <exclusion><groupId>org.apache.zookeeper</groupId><artifactId>zookeeper</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+  </exclusions>
+    </dependency>
+
+    <!-- Used for 'functional' Accumulo tests -->
+    <dependency><groupId>org.apache.accumulo</groupId><artifactId>accumulo-minicluster</artifactId><version>${accumulo15.version}</version><exclusions>
+      <exclusion><groupId>com.google.guava</groupId><artifactId>guava</artifactId></exclusion>
+      <exclusion><groupId>commons-codec</groupId><artifactId>commons-codec</artifactId></exclusion>
+      <exclusion><groupId>commons-collections</groupId><artifactId>commons-collections</artifactId></exclusion>
+      <exclusion><groupId>commons-configuration</groupId><artifactId>commons-configuration</artifactId></exclusion>
+      <exclusion><groupId>commons-io</groupId><artifactId>commons-io</artifactId></exclusion>
+      <exclusion><groupId>commons-lang</groupId><artifactId>commons-lang</artifactId></exclusion>
+      <exclusion><groupId>commons-logging</groupId><artifactId>commons-logging</artifactId></exclusion>
+      <exclusion><groupId>jline</groupId><artifactId>jline</artifactId></exclusion>
+      <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
+      <exclusion><groupId>org.apache.hadoop</groupId><artifactId>hadoop-client</artifactId></exclusion>
+      <exclusion><groupId>org.apache.zookeeper</groupId><artifactId>zookeeper</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId></exclusion>
+      <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-log4j12</artifactId></exclusion>
+    </exclusions>
+    </dependency>
+
+    <!-- for piggybank -->
+    <!--<dependency><groupId>hsqldb</groupId><artifactId>hsqldb</artifactId><version>${hsqldb.version}</version></dependency>-->
+    <dependency><groupId>org.apache.hive</groupId><artifactId>hive-exec</artifactId><version>${hive.version}</version><classifier>core</classifier></dependency>
+    <dependency><groupId>org.apache.hive</groupId><artifactId>hive-serde</artifactId><version>${hive.version}</version></dependency>
+    <dependency><groupId>org.apache.hive</groupId><artifactId>hive-common</artifactId><version>${hive.version}</version></dependency>
+    <dependency><groupId>org.apache.hive.shims</groupId><artifactId>hive-shims-common</artifactId><version>${hive.version}</version></dependency>
+    <dependency><groupId>org.apache.hive</groupId><artifactId>hive-contrib</artifactId><version>${hive.version}</version></dependency>
+    <dependency><groupId>org.apache.hive.shims</groupId><artifactId>hive-shims-0.23</artifactId><version>${hive.version}</version></dependency>
+    <dependency><groupId>org.apache.hive.shims</groupId><artifactId>hive-shims-0.20S</artifactId><version>${hive.version}</version></dependency>
+    <dependency><groupId>org.iq80.snappy</groupId><artifactId>snappy</artifactId><version>${snappy.version}</version></dependency>
+    <dependency><groupId>com.esotericsoftware.kryo</groupId><artifactId>kryo</artifactId><version>${kryo.version}</version></dependency>
+    <dependency><groupId>org.apache.commons</groupId><artifactId>commons-lang3</artifactId><version>${commons-lang3.version}</version></dependency>
+
+    <dependency><groupId>org.vafer</groupId><artifactId>jdeb</artifactId><version>${jdeb.version}</version></dependency>
+
+    <dependency><groupId>org.mockito</groupId><artifactId>mockito-all</artifactId><version>${mockito.version}</version></dependency>
+
+    <dependency><groupId>org.apache.parquet</groupId><artifactId>parquet-pig-bundle</artifactId><version>${parquet-pig-bundle.version}</version></dependency>
+
+    <!-- for Tez integration -->
+    <!--<dependency><groupId>org.apache.tez</groupId><artifactId>tez</artifactId><version>${tez.version}</version></dependency>-->
+    <dependency><groupId>org.apache.tez</groupId><artifactId>tez-common</artifactId><version>${tez.version}</version></dependency>
+    <dependency><groupId>org.apache.tez</groupId><artifactId>tez-api</artifactId><version>${tez.version}</version></dependency>
+    <dependency><groupId>org.apache.tez</groupId><artifactId>tez-dag</artifactId><version>${tez.version}</version></dependency>
+    <dependency><groupId>org.apache.tez</groupId><artifactId>tez-runtime-internals</artifactId><version>${tez.version}</version></dependency>
+    <dependency><groupId>org.apache.tez</groupId><artifactId>tez-runtime-library</artifactId><version>${tez.version}</version></dependency>
+    <dependency><groupId>org.apache.tez</groupId><artifactId>tez-mapreduce</artifactId><version>${tez.version}</version></dependency>
+    <dependency><groupId>org.apache.tez</groupId><artifactId>tez-yarn-timeline-history-with-acls</artifactId><version>${tez.version}</version></dependency>
+    <dependency><groupId>org.apache.commons</groupId><artifactId>commons-collections4</artifactId><version>${commons-collections4.version}</version></dependency>
+    <dependency><groupId>org.codehaus.jettison</groupId><artifactId>jettison</artifactId><version>${jettison.version}</version></dependency>
+    <dependency><groupId>org.apache.commons</groupId><artifactId>commons-math3</artifactId><version>${commons-math3.version}</version></dependency>
+    <dependency><groupId>org.apache.curator</groupId><artifactId>curator-framework</artifactId><version>${curator.version}</version></dependency>
+    <dependency><groupId>org.apache.curator</groupId><artifactId>curator-client</artifactId><version>${curator.version}</version></dependency>
+
+    <!--for Spark integration -->
+    <!--<dependency><groupId>org.apache.spark</groupId><artifactId>spark-core_2.11</artifactId><version>${spark1.version}</version></dependency>-->
+    <!--<dependency><groupId>org.apache.spark</groupId><artifactId>spark-yarn_2.11</artifactId><version>${spark1.version}</version></dependency>-->
+    <dependency><groupId>org.apache.spark</groupId><artifactId>spark-core_2.11</artifactId><version>${spark2.version}</version></dependency>
+    <dependency><groupId>org.apache.spark</groupId><artifactId>spark-yarn_2.11</artifactId><version>${spark2.version}</version></dependency>
+
+
