@@ -149,4 +149,7 @@ git rm build.xml
 git rm ivy/*
 cleanDir     '.'
 
+# Now commit all done by the script so I can more esily trace what I changed manually
+git commit -m"Script migration completed" -a
+
 exit 0
