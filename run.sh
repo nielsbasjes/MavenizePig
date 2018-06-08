@@ -122,6 +122,11 @@ gitMoveFiles 'contrib/piggybank/java/src/test/java/org/'   'piggybank/src/test/r
 git rm ./contrib/piggybank/java/build.xml
 git rm ./contrib/piggybank/java/lib/.gitignore
 
+# Fix the paths where the test files can be located
+find piggybank/src/test/java/ -type f | xargs -n1 sed -i 's@src/test/java/org/apache/pig/piggybank/test/@piggybank/src/test/resources/org/apache/pig/piggybank/test/@g'
+
+
+
 # TODO: Check if this is Ok. This changelog has not been updated since 2013
 git mv ./contrib/CHANGES.txt 'piggybank/'
 cleanDir     'contrib'

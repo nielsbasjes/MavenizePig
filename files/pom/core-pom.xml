@@ -60,7 +60,6 @@
               <sources>
                 <source>${project.build.directory}/generated-sources/antlr3</source>
                 <source>${project.build.directory}/generated-sources/javacc</source>
-                <source>${project.build.directory}/generated-sources/jjtree</source>
               </sources>
             </configuration>
           </execution>
