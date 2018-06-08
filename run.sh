@@ -92,6 +92,7 @@ gitMoveFiles 'src/org/'         'core/src/main/java/org/'       '*.java'
 gitMoveFiles 'src/org/'         'core/src/main/java/org/'       'package.html'
 gitMoveFiles 'src/org/'         'core/src/main/antlr3/org/'     '*.g'
 gitMoveFiles 'src/org/'         'core/src/main/javacc/org/'     '*.jj'
+gitMoveFiles 'src/META-INF/'    'core/src/main/resources/META-INF/'
 gitMoveFiles 'src/org/'         'core/src/main/resources/org/'  # All remaining files
 cleanDir     'src/org/'
 
@@ -109,10 +110,13 @@ cleanDir     'shims/src/'
 
 #setup core/src/test
 gitMoveFiles 'test/org/'        'core/src/test/java/org/'           '*.java'
-gitMoveFiles 'test/org/'        'core/src/test/javacc/'         '*.jjt'
-gitMoveFiles 'test/org/'        'core/src/test/pig/'            '*.pig'
-gitMoveFiles 'test/org/'        'core/src/test/resources/'
+gitMoveFiles 'test/org/'        'core/src/test/javacc/org/'         '*.jjt'
+gitMoveFiles 'test/org/'        'core/src/test/pig/org/'            '*.pig'
+gitMoveFiles 'test/org/'        'core/src/test/resources/org/'
 cleanDir     'test/org/'
+# Fix the paths where the test files can be located
+find core/src/test/ -type f | xargs -n1 sed -i 's@test/org/apache/pig/test/data/@src/test/resources/org/apache/pig/test/data/@g'
+find core/src/test/ -type f | xargs -n1 sed -i 's@new File("build/@new File("target/@g'
 
 #setup piggybank/*
 gitMoveFiles 'contrib/piggybank/java/src/main/java/org/'   'piggybank/src/main/java/org/'           '*.java'
@@ -123,9 +127,8 @@ git rm ./contrib/piggybank/java/build.xml
 git rm ./contrib/piggybank/java/lib/.gitignore
 
 # Fix the paths where the test files can be located
-find piggybank/src/test/java/ -type f | xargs -n1 sed -i 's@src/test/java/org/apache/pig/piggybank/test/@piggybank/src/test/resources/org/apache/pig/piggybank/test/@g'
-
-
+find piggybank/src/test/ -type f | xargs -n1 sed -i 's@src/test/java/org/apache/pig/piggybank/test/@src/test/resources/org/apache/pig/piggybank/test/@g'
+find piggybank/src/test/ -type f | xargs -n1 sed -i 's@new File("build/@new File("target/@g'
 
 # TODO: Check if this is Ok. This changelog has not been updated since 2013
 git mv ./contrib/CHANGES.txt 'piggybank/'
