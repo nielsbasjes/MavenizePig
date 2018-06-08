@@ -152,4 +152,7 @@ cleanDir     '.'
 # Now commit all done by the script so I can more esily trace what I changed manually
 git commit -m"Script migration completed" -a
 
+
+patch -p0 < ../Code-patches.diff
+
 exit 0

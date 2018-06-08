@@ -1,0 +1,233 @@
+diff --git core/pom.xml core/pom.xml
+index b12cfdf..d7ea80b 100644
+--- core/pom.xml
++++ core/pom.xml
+@@ -34,6 +34,15 @@
+   <build>
+     <plugins>
+       <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-surefire-plugin</artifactId>
++        <version>2.21.0</version>
++        <configuration>
++          <reuseForks>false</reuseForks>
++        </configuration>
++      </plugin>
++
++      <plugin>
+         <groupId>org.antlr</groupId>
+         <artifactId>antlr3-maven-plugin</artifactId>
+         <version>${antlr.version}</version>
+diff --git core/src/test/java/org/apache/pig/test/MiniGenericCluster.java core/src/test/java/org/apache/pig/test/MiniGenericCluster.java
+index 674860f..4ed1487 100644
+--- core/src/test/java/org/apache/pig/test/MiniGenericCluster.java
++++ core/src/test/java/org/apache/pig/test/MiniGenericCluster.java
+@@ -44,11 +44,21 @@ abstract public class MiniGenericCluster {
+     protected Configuration m_conf = null;
+ 
+     protected static MiniGenericCluster INSTANCE = null;
+-    protected static boolean isSetup = false;
+ 
+-    public static String EXECTYPE_MR = "mr";
+-    public static String EXECTYPE_TEZ = "tez";
+-    public static String EXECTYPE_SPARK = "spark";
++    public static final String EXECTYPE_MR = "mr";
++    public static final String EXECTYPE_TEZ = "tez";
++    public static final String EXECTYPE_SPARK = "spark";
++
++    private static String desiredExecType() {
++        String execType = System.getProperty("test.exec.type");
++        if (execType == null) {
++            execType = EXECTYPE_MR;
++            System.setProperty("test.exec.type", EXECTYPE_MR);
++        } else {
++            execType = execType.toLowerCase();
++        }
++        return execType;
++    }
+ 
+     /**
+      * Returns the single instance of class MiniGenericCluster that represents
+@@ -57,34 +67,33 @@ abstract public class MiniGenericCluster {
+      * cluster will be returned.
+      */
+     public static MiniGenericCluster buildCluster() {
+-        if (INSTANCE == null) {
+-            String execType = System.getProperty("test.exec.type");
+-            if (execType == null) {
+-                // Default to MR
+-                System.setProperty("test.exec.type", EXECTYPE_MR);
+-                return buildCluster(EXECTYPE_MR);
+-            }
+-
+-            return buildCluster(execType);
+-        }
+-        return INSTANCE;
++        return buildCluster(desiredExecType());
+     }
+ 
+     public static MiniGenericCluster buildCluster(String execType) {
+-        if (INSTANCE == null) {
+-            if (execType.equalsIgnoreCase(EXECTYPE_MR)) {
+-                INSTANCE = new MiniCluster();
+-            } else if (execType.equalsIgnoreCase(EXECTYPE_TEZ)) {
+-                INSTANCE = new TezMiniCluster();
+-            } else if (execType.equalsIgnoreCase(EXECTYPE_SPARK)) {
+-                INSTANCE = new SparkMiniCluster();
+-            } else {
+-                throw new RuntimeException("Unknown test.exec.type: " + execType);
++        if (INSTANCE != null) {
++            String instanceExecType = INSTANCE.getExecType().name();
++            if (!instanceExecType.equalsIgnoreCase(execType)){
++                INSTANCE.shutdownMiniDfsAndMrClusters();
++                INSTANCE = null;
+             }
+         }
+-        if (!isSetup) {
++        if (INSTANCE == null) {
++            System.err.println("XXXXXXXXXXXXXX Creating new TEST cluster:" + execType);
++            switch (execType) {
++                case EXECTYPE_MR:
++                    INSTANCE = new MiniCluster();
++                    break;
++                case EXECTYPE_TEZ:
++                    INSTANCE = new TezMiniCluster();
++                    break;
++                case EXECTYPE_SPARK:
++                    INSTANCE = new SparkMiniCluster();
++                    break;
++                default:
++                    throw new RuntimeException("Unknown test.exec.type: " + execType);
++            }
+             INSTANCE.setupMiniDfsAndMrClusters();
+-            isSetup = true;
+         }
+         return INSTANCE;
+     }
+@@ -103,7 +112,6 @@ abstract public class MiniGenericCluster {
+     }
+ 
+     protected void shutdownMiniDfsAndMrClusters() {
+-        isSetup = false;
+         shutdownMiniDfsClusters();
+         shutdownMiniMrClusters();
+         m_conf = null;
+@@ -145,25 +153,23 @@ abstract public class MiniGenericCluster {
+      * Throw RunTimeException if isSetup is false
+      */
+     private void errorIfNotSetup(){
+-        if(isSetup)
+-            return;
+-        String msg = "function called on MiniCluster that has been shutdown";
+-        throw new RuntimeException(msg);
++        if(INSTANCE == null) {
++            String msg = "function called on MiniCluster that has been shutdown";
++            throw new RuntimeException(msg);
++        }
+     }
+ 
+     static public Launcher getLauncher() {
+-        String execType = System.getProperty("test.exec.type");
+-        if (execType == null) {
+-            System.setProperty("test.exec.type", EXECTYPE_MR);
+-        }
+-        if (execType.equalsIgnoreCase(EXECTYPE_MR)) {
+-            return MiniCluster.getLauncher();
+-        } else if (execType.equalsIgnoreCase(EXECTYPE_TEZ)) {
+-            return TezMiniCluster.getLauncher();
+-        } else if(execType.equalsIgnoreCase(EXECTYPE_SPARK)){
+-            return SparkMiniCluster.getLauncher();
+-        } else{
+-            throw new RuntimeException("Unknown test.exec.type: " + execType);
++        String execType = desiredExecType();
++        switch (execType) {
++            case EXECTYPE_MR:
++                return MiniCluster.getLauncher();
++            case EXECTYPE_TEZ:
++                return TezMiniCluster.getLauncher();
++            case EXECTYPE_SPARK:
++                return SparkMiniCluster.getLauncher();
++            default:
++                throw new RuntimeException("Unknown test.exec.type: " + execType);
+         }
+     }
+ }
+diff --git core/src/test/java/org/apache/pig/test/TestPigStats.java core/src/test/java/org/apache/pig/test/TestPigStats.java
+index 2cea713..fca54e9 100644
+--- core/src/test/java/org/apache/pig/test/TestPigStats.java
++++ core/src/test/java/org/apache/pig/test/TestPigStats.java
+@@ -30,6 +30,7 @@ import org.apache.commons.io.FileUtils;
+ import org.apache.commons.logging.Log;
+ import org.apache.commons.logging.LogFactory;
+ import org.apache.hadoop.conf.Configuration;
++import org.apache.pig.ExecType;
+ import org.apache.pig.PigServer;
+ import org.apache.pig.backend.executionengine.ExecJob;
+ import org.apache.pig.backend.hadoop.executionengine.HExecutionEngine;
+@@ -38,6 +39,8 @@ import org.apache.pig.impl.PigContext;
+ import org.apache.pig.impl.util.ObjectSerializer;
+ import org.apache.pig.newplan.logical.relational.LogicalPlan;
+ import org.apache.pig.tools.pigstats.PigStats;
++import org.junit.Before;
++import org.junit.BeforeClass;
+ import org.junit.Ignore;
+ import org.junit.Test;
+ 
+diff --git core/src/test/java/org/apache/pig/test/TestPigStatsMR.java core/src/test/java/org/apache/pig/test/TestPigStatsMR.java
+index 7dc0135..61936b0 100644
+--- core/src/test/java/org/apache/pig/test/TestPigStatsMR.java
++++ core/src/test/java/org/apache/pig/test/TestPigStatsMR.java
+@@ -17,6 +17,8 @@
+  */
+ package org.apache.pig.test;
+ 
++import static org.apache.pig.test.MiniGenericCluster.EXECTYPE_MR;
++import static org.apache.pig.test.MiniGenericCluster.EXECTYPE_TEZ;
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.fail;
+ 
+@@ -39,9 +41,15 @@ import org.apache.pig.tools.pigstats.PigStats;
+ import org.apache.pig.tools.pigstats.PigStats.JobGraph;
+ import org.apache.pig.tools.pigstats.ScriptState;
+ import org.apache.pig.tools.pigstats.mapreduce.MRScriptState;
++import org.junit.Before;
++import org.junit.BeforeClass;
+ import org.junit.Test;
+ 
+ public class TestPigStatsMR extends TestPigStats {
++    @BeforeClass
++    public static void ensureRightTestCluster(){
++        System.setProperty("test.exec.type", EXECTYPE_MR);
++    }
+ 
+     @Override
+     @Test
+diff --git core/src/test/java/org/apache/pig/tez/TestPigStatsTez.java core/src/test/java/org/apache/pig/tez/TestPigStatsTez.java
+index f0a9da8..cdad5e2 100644
+--- core/src/test/java/org/apache/pig/tez/TestPigStatsTez.java
++++ core/src/test/java/org/apache/pig/tez/TestPigStatsTez.java
+@@ -17,6 +17,7 @@
+  */
+ package org.apache.pig.tez;
+ 
++import static org.apache.pig.test.MiniGenericCluster.EXECTYPE_TEZ;
+ import static org.junit.Assert.assertEquals;
+ 
+ import java.io.File;
+@@ -36,8 +37,16 @@ import org.apache.pig.tools.pigstats.PigStats.JobGraph;
+ import org.apache.pig.tools.pigstats.tez.TezPigScriptStats;
+ import org.apache.pig.tools.pigstats.tez.TezScriptState;
+ import org.apache.pig.tools.pigstats.tez.TezScriptState.TezDAGScriptInfo;
++import org.junit.Before;
++import org.junit.BeforeClass;
+ 
+ public class TestPigStatsTez extends TestPigStats {
++
++    @BeforeClass
++    public static void ensureRightTestCluster(){
++        System.setProperty("test.exec.type", EXECTYPE_TEZ);
++    }
++
+     @Override
+     public void addSettingsToConf(Configuration conf, String scriptFileName) throws IOException {
+         TezScriptState ss = TezScriptState.get();
