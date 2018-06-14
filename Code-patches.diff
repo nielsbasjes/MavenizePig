@@ -1,28 +1,16 @@
-diff --git core/pom.xml core/pom.xml
-index b12cfdf..d7ea80b 100644
---- core/pom.xml
-+++ core/pom.xml
-@@ -34,6 +34,15 @@
-   <build>
-     <plugins>
-       <plugin>
-+        <groupId>org.apache.maven.plugins</groupId>
-+        <artifactId>maven-surefire-plugin</artifactId>
-+        <version>2.21.0</version>
-+        <configuration>
-+          <reuseForks>false</reuseForks>
-+        </configuration>
-+      </plugin>
-+
-+      <plugin>
-         <groupId>org.antlr</groupId>
-         <artifactId>antlr3-maven-plugin</artifactId>
-         <version>${antlr.version}</version>
 diff --git core/src/test/java/org/apache/pig/test/MiniGenericCluster.java core/src/test/java/org/apache/pig/test/MiniGenericCluster.java
-index 674860f..4ed1487 100644
+index 674860f..925d71c 100644
 --- core/src/test/java/org/apache/pig/test/MiniGenericCluster.java
 +++ core/src/test/java/org/apache/pig/test/MiniGenericCluster.java
-@@ -44,11 +44,21 @@ abstract public class MiniGenericCluster {
+@@ -26,6 +26,7 @@ import org.apache.hadoop.hdfs.MiniDFSCluster;
+ import org.apache.pig.ExecType;
+ import org.apache.pig.backend.hadoop.datastorage.ConfigurationUtil;
+ import org.apache.pig.backend.hadoop.executionengine.Launcher;
++import org.apache.pig.tools.pigstats.ScriptState;
+ 
+ /**
+  * This class builds a single instance of itself with the Singleton
+@@ -44,11 +45,26 @@ abstract public class MiniGenericCluster {
      protected Configuration m_conf = null;
  
      protected static MiniGenericCluster INSTANCE = null;
@@ -34,6 +22,11 @@ index 674860f..4ed1487 100644
 +    public static final String EXECTYPE_MR = "mr";
 +    public static final String EXECTYPE_TEZ = "tez";
 +    public static final String EXECTYPE_SPARK = "spark";
++
++    public static MiniGenericCluster initializeMiniCluster(String execType)  {
++        System.setProperty("test.exec.type", execType);
++        return buildCluster(execType);
++    }
 +
 +    private static String desiredExecType() {
 +        String execType = System.getProperty("test.exec.type");
@@ -48,7 +41,7 @@ index 674860f..4ed1487 100644
  
      /**
       * Returns the single instance of class MiniGenericCluster that represents
-@@ -57,34 +67,33 @@ abstract public class MiniGenericCluster {
+@@ -57,34 +73,37 @@ abstract public class MiniGenericCluster {
       * cluster will be returned.
       */
      public static MiniGenericCluster buildCluster() {
@@ -86,6 +79,10 @@ index 674860f..4ed1487 100644
 -        if (!isSetup) {
 +        if (INSTANCE == null) {
 +            System.err.println("XXXXXXXXXXXXXX Creating new TEST cluster:" + execType);
++
++            // Force the script state to be reinitialized
++            ScriptState.start(null);
++
 +            switch (execType) {
 +                case EXECTYPE_MR:
 +                    INSTANCE = new MiniCluster();
@@ -104,7 +101,7 @@ index 674860f..4ed1487 100644
          }
          return INSTANCE;
      }
-@@ -103,7 +112,6 @@ abstract public class MiniGenericCluster {
+@@ -103,7 +122,6 @@ abstract public class MiniGenericCluster {
      }
  
      protected void shutdownMiniDfsAndMrClusters() {
@@ -112,7 +109,7 @@ index 674860f..4ed1487 100644
          shutdownMiniDfsClusters();
          shutdownMiniMrClusters();
          m_conf = null;
-@@ -145,25 +153,23 @@ abstract public class MiniGenericCluster {
+@@ -145,25 +163,23 @@ abstract public class MiniGenericCluster {
       * Throw RunTimeException if isSetup is false
       */
      private void errorIfNotSetup(){
@@ -174,7 +171,7 @@ index 2cea713..fca54e9 100644
  import org.junit.Test;
  
 diff --git core/src/test/java/org/apache/pig/test/TestPigStatsMR.java core/src/test/java/org/apache/pig/test/TestPigStatsMR.java
-index 7dc0135..61936b0 100644
+index 7dc0135..07391bd 100644
 --- core/src/test/java/org/apache/pig/test/TestPigStatsMR.java
 +++ core/src/test/java/org/apache/pig/test/TestPigStatsMR.java
 @@ -17,6 +17,8 @@
@@ -197,13 +194,13 @@ index 7dc0135..61936b0 100644
  public class TestPigStatsMR extends TestPigStats {
 +    @BeforeClass
 +    public static void ensureRightTestCluster(){
-+        System.setProperty("test.exec.type", EXECTYPE_MR);
++        MiniGenericCluster.initializeMiniCluster(EXECTYPE_MR);
 +    }
  
      @Override
      @Test
 diff --git core/src/test/java/org/apache/pig/tez/TestPigStatsTez.java core/src/test/java/org/apache/pig/tez/TestPigStatsTez.java
-index f0a9da8..cdad5e2 100644
+index f0a9da8..5cb0462 100644
 --- core/src/test/java/org/apache/pig/tez/TestPigStatsTez.java
 +++ core/src/test/java/org/apache/pig/tez/TestPigStatsTez.java
 @@ -17,6 +17,7 @@
@@ -214,7 +211,13 @@ index f0a9da8..cdad5e2 100644
  import static org.junit.Assert.assertEquals;
  
  import java.io.File;
-@@ -36,8 +37,16 @@ import org.apache.pig.tools.pigstats.PigStats.JobGraph;
+@@ -31,13 +32,22 @@ import org.apache.pig.backend.hadoop.executionengine.tez.plan.TezOperator;
+ import org.apache.pig.backend.hadoop.executionengine.tez.plan.TezPlanContainer;
+ import org.apache.pig.backend.hadoop.executionengine.tez.plan.TezPlanContainerNode;
+ import org.apache.pig.impl.PigContext;
++import org.apache.pig.test.MiniGenericCluster;
+ import org.apache.pig.test.TestPigStats;
+ import org.apache.pig.tools.pigstats.PigStats.JobGraph;
  import org.apache.pig.tools.pigstats.tez.TezPigScriptStats;
  import org.apache.pig.tools.pigstats.tez.TezScriptState;
  import org.apache.pig.tools.pigstats.tez.TezScriptState.TezDAGScriptInfo;
@@ -225,7 +228,7 @@ index f0a9da8..cdad5e2 100644
 +
 +    @BeforeClass
 +    public static void ensureRightTestCluster(){
-+        System.setProperty("test.exec.type", EXECTYPE_TEZ);
++        MiniGenericCluster.initializeMiniCluster(EXECTYPE_TEZ);
 +    }
 +
      @Override

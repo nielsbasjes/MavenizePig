@@ -10,11 +10,13 @@ then
 fi
 
 rm -rf pig
-cp -a OriginalPig pig
+git clone OriginalPig pig
 cd pig
 
 # Ignore IntelliJ
 echo ".idea" >> .gitignore
+echo '!tutorial/**/*.log' >> .gitignore
+
 
 pwd
 
@@ -105,7 +107,7 @@ gitMoveFiles 'shims/src/hadoop2'                   'core/src/main/java'         
 #gitMoveFiles 'shims/test/hadoop2'                  'core/src/test/java'          '*.java'
 #gitMoveFiles 'shims/src/'                         'core/src/test/shims/'    '*.java'
 cleanDir     'shims/src/'
-#git rm -rf shims
+git rm -rf shims
 
 
 #setup core/src/test

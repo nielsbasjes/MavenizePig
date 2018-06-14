@@ -45,6 +45,39 @@
           </execution>
         </executions>
       </plugin>
+
+
+      <!-- Some jars must be present locally for testing purposes -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-common</artifactId><version>${tez.version}</version></artifactItem>
+                <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-api</artifactId><version>${tez.version}</version></artifactItem>
+                <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-dag</artifactId><version>${tez.version}</version></artifactItem>
+                <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-runtime-internals</artifactId><version>${tez.version}</version></artifactItem>
+                <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-runtime-library</artifactId><version>${tez.version}</version></artifactItem>
+                <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-mapreduce</artifactId><version>${tez.version}</version></artifactItem>
+                <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-yarn-timeline-history-with-acls</artifactId><version>${tez.version}</version></artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/ivy/lib/Pig</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -72,7 +105,7 @@
             <configuration>
               <sources>
                 <source>${project.build.directory}/test-generated-sources/javacc</source>
-                <source>${project.build.directory}/generated-sources/jjtree</source>
+                <source>${project.build.directory}/test-generated-sources/jjtree</source>
               </sources>
             </configuration>
           </execution>
@@ -109,6 +142,7 @@
             </goals>
             <configuration>
               <sourceDirectory>src/test/javacc</sourceDirectory>
+              <interimDirectory>${project.build.directory}/test-generated-sources/jjtree</interimDirectory>
               <outputDirectory>${project.build.directory}/test-generated-sources/javacc</outputDirectory>
             </configuration>
           </execution>
