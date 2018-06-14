@@ -113,11 +113,11 @@ git rm -rf shims
 #setup core/src/test
 gitMoveFiles 'test/org/'        'core/src/test/java/org/'           '*.java'
 gitMoveFiles 'test/org/'        'core/src/test/javacc/org/'         '*.jjt'
-gitMoveFiles 'test/org/'        'core/src/test/pig/org/'            '*.pig'
+gitMoveFiles 'test/org/'        'core/src/test/resources/org/'      '*.pig'
 gitMoveFiles 'test/org/'        'core/src/test/resources/org/'
 cleanDir     'test/org/'
 # Fix the paths where the test files can be located
-find core/src/test/ -type f | xargs -n1 sed -i 's@test/org/apache/pig/test/data/@src/test/resources/org/apache/pig/test/data/@g'
+find core/src/test/ -type f | xargs -n1 sed -i 's@test/org/apache/pig/@src/test/resources/org/apache/pig/@g'
 find core/src/test/ -type f | xargs -n1 sed -i 's@"build/@"target/@g'
 find core/src/test/ -type f | xargs -n1 sed -i 's@/build/@/target/@g'
 
