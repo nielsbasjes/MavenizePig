@@ -1,3 +1,115 @@
+diff --git core/pom.xml core/pom.xml
+index d473d69..cce2e9f 100644
+--- core/pom.xml
++++ core/pom.xml
+@@ -68,6 +68,7 @@
+                 <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-runtime-library</artifactId><version>${tez.version}</version></artifactItem>
+                 <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-mapreduce</artifactId><version>${tez.version}</version></artifactItem>
+                 <artifactItem><groupId>org.apache.tez</groupId><artifactId>tez-yarn-timeline-history-with-acls</artifactId><version>${tez.version}</version></artifactItem>
++                <artifactItem><groupId>org.apache.hive</groupId><artifactId>hive-exec</artifactId><version>${hive.version}</version><classifier>core</classifier></artifactItem>
+               </artifactItems>
+               <outputDirectory>${project.build.directory}/ivy/lib/Pig</outputDirectory>
+               <overWriteReleases>false</overWriteReleases>
+diff --git core/src/test/java/org/apache/pig/builtin/TestOrcStoragePushdown.java core/src/test/java/org/apache/pig/builtin/TestOrcStoragePushdown.java
+index 3bb1cb9..cb99fc5 100644
+--- core/src/test/java/org/apache/pig/builtin/TestOrcStoragePushdown.java
++++ core/src/test/java/org/apache/pig/builtin/TestOrcStoragePushdown.java
+@@ -17,6 +17,7 @@
+  */
+ package org.apache.pig.builtin;
+ 
++import static org.apache.pig.test.MiniGenericCluster.EXECTYPE_MR;
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertTrue;
+ 
+@@ -33,6 +34,9 @@ import java.util.List;
+ 
+ import org.apache.commons.lang3.RandomStringUtils;
+ import org.apache.commons.lang3.RandomUtils;
++import org.apache.hadoop.fs.LocatedFileStatus;
++import org.apache.hadoop.fs.Path;
++import org.apache.hadoop.fs.RemoteIterator;
+ import org.apache.hadoop.hive.ql.io.sarg.SearchArgument;
+ import org.apache.log4j.FileAppender;
+ import org.apache.log4j.Level;
+@@ -83,7 +87,7 @@ public class TestOrcStoragePushdown {
+ 
+     @BeforeClass
+     public static void oneTimeSetup() throws Exception{
+-        cluster = MiniGenericCluster.buildCluster();
++        cluster = MiniGenericCluster.buildCluster(EXECTYPE_MR);
+         Util.copyFromLocalToCluster(cluster, basedir + "orc-file-11-format.orc", basedir + "orc-file-11-format.orc");
+         Util.copyFromLocalToCluster(cluster, basedir + "charvarchar.orc", basedir + "charvarchar.orc");
+         createInputData();
+@@ -164,9 +168,29 @@ public class TestOrcStoragePushdown {
+ 
+         Util.copyFromLocalToCluster(cluster, inputTxtFile, inputTxtFile);
+ 
++        listAllFilesInCluster("1");
+         // Store only 1000 rows in each row block (MIN_ROW_INDEX_STRIDE is 1000. So can't use less than that)
+         pigServer.registerQuery("A = load '" + Util.generateURI(inputTxtFile, pigServer.getPigContext()) + "' as (f1:boolean, f2:int, f3:int, f4:int, f5:long, f6:float, f7:double, f8:bytearray, f9:chararray, f10:datetime, f11:bigdecimal);");
+-        pigServer.registerQuery("store A into '" + INPUT +"' using OrcStorage('-r 1000 -s 100000');");
++        listAllFilesInCluster("2");
++        pigServer.registerQuery("store A into '" + Util.generateURI(INPUT, pigServer.getPigContext()) + ".txt' using PigStorage();");
++        pigServer.registerQuery("store A into '" + Util.generateURI(INPUT, pigServer.getPigContext()) + "' using OrcStorage('-r 1000 -s 100000');");
++        listAllFilesInCluster("3");
++
++        Util.copyFromClusterToLocal(cluster, INPUT + ".txt", "target/__INPUT.txt");
++        Util.copyFromClusterToLocal(cluster, INPUT, "target/__INPUT.orc");
++    }
++
++    private static void listAllFilesInCluster(String tag) throws IOException {
++        System.err.println("");
++        System.err.println("===================================================================== " + tag);
++        RemoteIterator<LocatedFileStatus> iter = cluster.getFileSystem().listFiles(new Path("/"), true);
++        LocatedFileStatus lfs = null;
++        while (iter.hasNext()) {
++            lfs = iter.next();
++            System.err.println(lfs);
++        }
++        System.err.println("DONE");
++        System.err.println("===================================================================== " + tag);
+     }
+ 
+     @AfterClass
+@@ -371,6 +395,7 @@ public class TestOrcStoragePushdown {
+     }
+ 
+     private void testPredicatePushdown(String inputFile, String filterStmt, int expectedRows, int expectedBytesReadDiff) throws IOException {
++        Util.copyFromClusterToLocal(cluster, inputFile , "/tmp/xxxxxx");
+ 
+         Util.resetStateForExecModeSwitch();
+         // Minicluster is required to get hdfs bytes read counter value
+@@ -386,6 +411,8 @@ public class TestOrcStoragePushdown {
+         pigServer_disabledRule.registerQuery("C = filter B by " + filterStmt + ";");
+         ExecJob job = pigServer_disabledRule.store("C", OUTPUT3);
+         //Util.copyFromClusterToLocal(cluster, OUTPUT3 + "/part-m-00000", OUTPUT3);
++
++
+         JobStats stats = (JobStats) job.getStatistics().getJobGraph().getSources().get(0);
+         assertEquals(expectedRows, stats.getRecordWrittern());
+         long bytesWithoutPushdown = stats.getHdfsBytesRead();
+diff --git core/src/test/java/org/apache/pig/impl/builtin/TestStreamingUDF.java core/src/test/java/org/apache/pig/impl/builtin/TestStreamingUDF.java
+index 888be28..a5563c6 100644
+--- core/src/test/java/org/apache/pig/impl/builtin/TestStreamingUDF.java
++++ core/src/test/java/org/apache/pig/impl/builtin/TestStreamingUDF.java
+@@ -18,6 +18,7 @@
+ package org.apache.pig.impl.builtin;
+ 
+ import static org.apache.pig.builtin.mock.Storage.resetData;
++import static org.apache.pig.test.MiniGenericCluster.EXECTYPE_MR;
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertTrue;
+ 
+@@ -64,7 +65,7 @@ public class TestStreamingUDF {
+ 
+     @BeforeClass
+     public static void oneTimeSetup() {
+-        cluster = MiniGenericCluster.buildCluster();
++        cluster = MiniGenericCluster.buildCluster(EXECTYPE_MR);
+     }
+ 
+     @AfterClass
 diff --git core/src/test/java/org/apache/pig/test/MiniGenericCluster.java core/src/test/java/org/apache/pig/test/MiniGenericCluster.java
 index 674860f..925d71c 100644
 --- core/src/test/java/org/apache/pig/test/MiniGenericCluster.java
@@ -234,3 +346,18 @@ index f0a9da8..5cb0462 100644
      @Override
      public void addSettingsToConf(Configuration conf, String scriptFileName) throws IOException {
          TezScriptState ss = TezScriptState.get();
+diff --git piggybank/src/test/java/org/apache/pig/piggybank/test/storage/TestCSVStorage.java piggybank/src/test/java/org/apache/pig/piggybank/test/storage/TestCSVStorage.java
+index 0d4ab6a..c580f51 100644
+--- piggybank/src/test/java/org/apache/pig/piggybank/test/storage/TestCSVStorage.java
++++ piggybank/src/test/java/org/apache/pig/piggybank/test/storage/TestCSVStorage.java
+@@ -40,10 +40,8 @@ public class TestCSVStorage {
+     protected static final Log LOG = LogFactory.getLog(TestCSVStorage.class);
+ 
+     private PigServer pigServer;
+-    private MiniGenericCluster cluster;
+ 
+     public TestCSVStorage() throws ExecException, IOException {
+-        cluster = MiniGenericCluster.buildCluster();
+         pigServer = new PigServer(ExecType.LOCAL, new Properties());
+         pigServer.getPigContext().getProperties()
+                 .setProperty(MRConfiguration.MAP_MAX_ATTEMPTS, "1");
