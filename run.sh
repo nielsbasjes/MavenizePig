@@ -94,6 +94,7 @@ gitMoveFiles 'src/org/'         'core/src/main/java/org/'       '*.java'
 gitMoveFiles 'src/org/'         'core/src/main/java/org/'       'package.html'
 gitMoveFiles 'src/org/'         'core/src/main/antlr3/org/'     '*.g'
 gitMoveFiles 'src/org/'         'core/src/main/javacc/org/'     '*.jj'
+gitMoveFiles 'src/'             'core/src/main/resources/'       'pig-default.properties'
 gitMoveFiles 'src/META-INF/'    'core/src/main/resources/META-INF/'
 gitMoveFiles 'src/org/'         'core/src/main/resources/org/'  # All remaining files
 cleanDir     'src/org/'
